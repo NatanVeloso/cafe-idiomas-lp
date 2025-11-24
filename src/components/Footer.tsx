@@ -18,7 +18,7 @@ export default function Footer() {
               <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+              <a href="https://www.instagram.com/escola.cafe.idiomas/" target='_blank' className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">

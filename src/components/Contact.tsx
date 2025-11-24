@@ -27,7 +27,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Telefone</h4>
-                    <p className="text-gray-600">(11) 9999-9999</p>
+                    <p className="text-gray-600">(34) 9969-0446</p>
                   </div>
                 </div>
 
@@ -96,7 +96,7 @@ export default function Contact() {
                     type="tel"
                     id="phone"
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#186595] focus:border-transparent outline-none transition-all"
-                    placeholder="(11) 99999-9999"
+                    placeholder="(34) 9969-0446"
                   />
                 </div>
 

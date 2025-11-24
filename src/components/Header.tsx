@@ -13,7 +13,7 @@ export default function Header({ isScrolled }: HeaderProps) {
       style={{
         backdropFilter: isScrolled ? 'blur(10px) brightness(1.1)' : 'none',
         background: isScrolled
-          ? 'linear-gradient(135deg, rgba(24, 101, 149, 0.4) 0%, rgba(13, 74, 107, 0.3) 100%)'
+          ? 'linear-gradient(135deg, rgba(24, 101, 149, 0.9) 0%, rgba(13, 74, 107, 0.8) 100%)'
           : 'transparent',
       }}
     >
