@@ -1,3 +1,4 @@
+import logo from '../assets/loog com texto.png';
 import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 export default function Footer() {
@@ -7,7 +8,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-2">
             <img
-              src="/src/assets/loog com texto.png"
+              src={logo}
               alt="Café Idiomas"
               className="h-12 mb-4"
             />

@@ -1,3 +1,5 @@
+import logo from '../assets/loog com texto.png';
+
 interface HeaderProps {
   isScrolled: boolean;
 }
@@ -20,7 +22,7 @@ export default function Header({ isScrolled }: HeaderProps) {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <img
-            src="/src/assets/loog com texto.png"
+            src={logo}
             alt="Café Idiomas"
             className={`transition-all duration-300 ${
               isScrolled ? 'h-10' : 'h-12'
