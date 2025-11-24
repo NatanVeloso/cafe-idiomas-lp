@@ -1,11 +1,14 @@
 import { Target, Heart, TrendingUp } from 'lucide-react';
+import { useInView } from '../hooks/useInView';
 
 export default function About() {
+  const { ref, isInView } = useInView({ threshold: 0.1 });
+
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" className="py-20 bg-white" ref={ref}>
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-          <div>
+          <div className={`transition-all duration-700 ${isInView ? 'animate-fade-right' : 'opacity-0'}`}>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               Sobre Nós
             </h2>
@@ -49,7 +52,7 @@ export default function About() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className={`relative transition-all duration-700 ${isInView ? 'animate-fade-left' : 'opacity-0'}`}>
             <div className="absolute inset-0 bg-gradient-to-br from-[#186595] to-orange-500 rounded-3xl transform rotate-3 opacity-10"></div>
             <div className="relative bg-gradient-to-br from-[#186595] to-[#0d4a6b] rounded-3xl p-8 text-white shadow-2xl">
               <h3 className="text-2xl font-bold mb-6">O que nos diferencia?</h3>

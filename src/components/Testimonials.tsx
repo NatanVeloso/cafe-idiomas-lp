@@ -1,4 +1,5 @@
 import { Quote, Star } from 'lucide-react';
+import { useInView } from '../hooks/useInView';
 
 const testimonials = [
   {
@@ -22,10 +23,12 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const { ref, isInView } = useInView({ threshold: 0.1 });
+
   return (
-    <section id="testimonials" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <section id="testimonials" className="py-20 bg-gradient-to-br from-gray-50 to-white" ref={ref}>
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-700 ${isInView ? 'animate-fade-up' : 'opacity-0'}`}>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             O que nossos alunos dizem
           </h2>
@@ -38,7 +41,12 @@ export default function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 relative"
+              className={`bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 relative ${
+                isInView ? 'animate-fade-up' : 'opacity-0'
+              }`}
+              style={{
+                animationDelay: isInView ? `${index * 0.1}s` : '0s',
+              }}
             >
               <div className="absolute -top-4 -left-4 bg-orange-500 rounded-full p-3">
                 <Quote className="w-6 h-6 text-white" />

@@ -1,4 +1,5 @@
 import { Zap, MessageSquare, Banknote, Sparkles, Award } from 'lucide-react';
+import { useInView } from '../hooks/useInView';
 
 const benefits = [
   {
@@ -34,10 +35,12 @@ const benefits = [
 ];
 
 export default function Benefits() {
+  const { ref, isInView } = useInView({ threshold: 0.1 });
+
   return (
-    <section id="benefits" className="py-20 bg-gray-50">
+    <section id="benefits" className="py-20 bg-gray-50" ref={ref}>
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-700 ${isInView ? 'animate-fade-up' : 'opacity-0'}`}>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Por que escolher o Café Idiomas?
           </h2>
@@ -50,7 +53,12 @@ export default function Benefits() {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-gray-100"
+              className={`bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-gray-100 ${
+                isInView ? 'animate-fade-up' : 'opacity-0'
+              }`}
+              style={{
+                animationDelay: isInView ? `${index * 0.1}s` : '0s',
+              }}
             >
               <div className={`${benefit.color} w-16 h-16 rounded-xl flex items-center justify-center mb-6`}>
                 <benefit.icon className="w-8 h-8 text-white" />
