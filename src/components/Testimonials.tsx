@@ -62,9 +62,16 @@ export default function Testimonials() {
                 "{testimonial.text}"
               </p>
 
-              <div className="border-t pt-4">
-                <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                <p className="text-sm text-[#186595]">{testimonial.course}</p>
+              <div className="border-t pt-4 flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#186595] to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-bold text-sm">
+                    {testimonial.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                  <p className="text-sm text-[#186595]">{testimonial.course}</p>
+                </div>
               </div>
             </div>
           ))}

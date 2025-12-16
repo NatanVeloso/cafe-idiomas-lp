@@ -49,7 +49,8 @@ export default function Benefits() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="flex justify-center">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl">
           {benefits.map((benefit, index) => (
             <div
               key={index}
@@ -71,6 +72,7 @@ export default function Benefits() {
               </p>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </section>
