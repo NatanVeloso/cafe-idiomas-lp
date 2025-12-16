@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Benefits from './components/Benefits';
-import About from './components/About';
-import Testimonials from './components/Testimonials';
-import Statistics from './components/Statistics';
-import VideoTestimonials from './components/VideoTestimonials';
-import Courses from './components/Courses';
 import FAQ from './components/FAQ';
-import Contact from './components/Contact';
+import Hero from './components/Hero';
+import About from './components/About';
+import Header from './components/Header';
 import Footer from './components/Footer';
+import Courses from './components/Courses';
+import Contact from './components/Contact';
+import { useState, useEffect } from 'react';
+import Benefits from './components/Benefits';
+import Statistics from './components/Statistics';
+import Testimonials from './components/Testimonials';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
+import VideoTestimonials from './components/VideoTestimonials';
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);

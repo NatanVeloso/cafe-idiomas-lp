@@ -1,11 +1,15 @@
-import logo from '../assets/loog com texto.png';
-import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
+import logo from '../assets/logoWhite.png';
+import { Instagram, Youtube, Music2 } from 'lucide-react';
+import { useScrollToSection } from '../hooks/useScrollToSection';
 
 export default function Footer() {
+
+  const { scrollToSection } = useScrollToSection();
+
   return (
-    <footer className="bg-gradient-to-br from-[#186595] to-[#0d4a6b] text-white py-12">
+    <footer className="bg-gradient-to-br from-[#00415d] to-[#09598f] text-white py-12">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div className="col-span-2">
             <img
               src={logo}
@@ -16,16 +20,13 @@ export default function Footer() {
               Transformando vidas através do ensino de idiomas com qualidade, flexibilidade e paixão.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="https://www.instagram.com/escola.cafe.idiomas/" target='_blank' className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+              <a href="https://www.instagram.com/escola.cafe.idiomas/" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
-                <Linkedin className="w-5 h-5" />
+              <a href="https://www.tiktok.com/@escola.cafe.idiomas" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+                <Music2 className="w-5 h-5" />
               </a>
-              <a href="#" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+              <a href="https://www.youtube.com/@CafeIdiomas" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
                 <Youtube className="w-5 h-5" />
               </a>
             </div>
@@ -33,21 +34,13 @@ export default function Footer() {
 
           <div>
             <h3 className="font-bold text-lg mb-4">Links Rápidos</h3>
-            <ul className="space-y-2 text-blue-100">
-              <li><a href="#benefits" className="hover:text-orange-300 transition-colors">Benefícios</a></li>
-              <li><a href="#about" className="hover:text-orange-300 transition-colors">Sobre Nós</a></li>
-              <li><a href="#testimonials" className="hover:text-orange-300 transition-colors">Depoimentos</a></li>
-              <li><a href="#contact" className="hover:text-orange-300 transition-colors">Contato</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold text-lg mb-4">Cursos</h3>
-            <ul className="space-y-2 text-blue-100">
-              <li><a href="#" className="hover:text-orange-300 transition-colors">Inglês Básico</a></li>
-              <li><a href="#" className="hover:text-orange-300 transition-colors">Inglês Intermediário</a></li>
-              <li><a href="#" className="hover:text-orange-300 transition-colors">Inglês Avançado</a></li>
-              <li><a href="#" className="hover:text-orange-300 transition-colors">Francês</a></li>
+            <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-blue-100">
+              <li><a href="#benefits" onClick={(e) => scrollToSection(e, '#benefits')} className="hover:text-[#ee6b52] transition-colors">Benefícios</a></li>
+              <li><a href="#courses" onClick={(e) => scrollToSection(e, '#courses')} className="hover:text-[#ee6b52] transition-colors">Cursos</a></li>
+              <li><a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="hover:text-[#ee6b52] transition-colors">Sobre Nós</a></li>
+              <li><a href="#faq" onClick={(e) => scrollToSection(e, '#faq')} className="hover:text-[#ee6b52] transition-colors">FAQ</a></li>
+              <li><a href="#testimonials" onClick={(e) => scrollToSection(e, '#testimonials')} className="hover:text-[#ee6b52] transition-colors">Depoimentos</a></li>
+              <li><a href="#contact" onClick={(e) => scrollToSection(e, '#contact')} className="hover:text-[#ee6b52] transition-colors">Contato</a></li>
             </ul>
           </div>
         </div>
