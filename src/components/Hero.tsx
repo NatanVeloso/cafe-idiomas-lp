@@ -1,5 +1,6 @@
 import { useInView } from '../hooks/useInView';
 import { Globe, MessageCircle, Sparkles } from 'lucide-react';
+import { useScrollToSection } from '../hooks/useScrollToSection';
 
 export default function Hero() {
   const phoneNumber = '553499690446';
@@ -13,6 +14,10 @@ export default function Hero() {
   const { ref: item1Ref, isInView: item1InView } = useInView({ threshold: 0.1 });
   const { ref: item2Ref, isInView: item2InView } = useInView({ threshold: 0.1 });
   const { ref: item3Ref, isInView: item3InView } = useInView({ threshold: 0.1 });
+
+  
+  const { scrollToSection } = useScrollToSection();
+  
 
   const cardItems = [
     { icon: Globe, title: 'Inglês e Francês', desc: 'Dois idiomas, infinitas oportunidades', ref: item1Ref, isInView: item1InView },
@@ -53,7 +58,7 @@ export default function Hero() {
                 Agendar aula demonstrativa
               </a>
               <a
-                href="#about"
+                href="#about" onClick={(e) => scrollToSection(e, '#about')}
                 className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full text-lg font-semibold transition-all border-2 border-white/30 text-center"
               >
                 Saiba Mais
