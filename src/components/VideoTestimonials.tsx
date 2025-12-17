@@ -12,7 +12,7 @@ const videos = [
   {
     id: '_WyFm46mIWo',
     title: 'Depoimento Aluno 3'
-  }
+  },
 ];
 
 function VideoCard({ video, index }: { video: typeof videos[0]; index: number }) {
@@ -62,7 +62,7 @@ export default function VideoTestimonials() {
             className={`text-xl text-[#515859] max-w-2xl mx-auto transition-all duration-700 delay-150 ${subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
           >
-            Confira relatos reais de alunos que transformaram suas vidas com a escola Café Idiomas
+            Histórias reais de quem transformou sua comunicação em inglês e francês
           </p>
         </div>
 

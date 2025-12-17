@@ -4,28 +4,32 @@ import { useInView } from '../hooks/useInView';
 
 const faqs = [
   {
-    question: 'Como funciona o processo de aprendizagem no Café Idiomas?',
-    answer: 'Nossa metodologia combina aulas ao vivo com professores experientes, materiais interativos, prática de conversação e acompanhamento personalizado. Focamos em desenvolver fluência real, não apenas gramática.'
+    question: 'O curso é gravado?',
+    answer: 'Não. As aulas são em tempo real. Você também recebe acesso às gravações das aulas ao vivo para revisar quando quiser.'
   },
   {
-    question: 'Qual é a duração dos cursos?',
-    answer: 'A duração varia de acordo com o nível e objetivos de cada aluno, podendo levar de alguns meses até 2 anos. Oferecemos programas personalizados que se adaptam ao seu ritmo e disponibilidade.'
+    question: 'As aulas são em grupo ou individuais?',
+    answer: 'As aulas são particulares, para garantir personalização total e evolução mais rápida.'
   },
   {
-    question: 'Preciso ter experiência anterior para se matricular?',
-    answer: 'Não! Temos cursos para todos os níveis, desde iniciantes até avançado. Nossos instrutores adaptam o ensino ao seu ritmo e experiência anterior.'
+    question: 'Métodos de pagamento?',
+    answer: 'PIX ou boleto.'
   },
   {
-    question: 'As aulas são online ou presenciais?',
-    answer: 'As aulas são 100% online e ao vivo, com professores capacitados e experientes. Você estuda de onde estiver, com toda a interação e suporte de uma aula presencial.'
+    question: 'O curso tem certificado?',
+    answer: 'Sim! Oferecemos certificado físico e digital ao final do período contratado. Ele serve para comprovação de horas para empresas, universidades e concursos.'
   },
   {
-    question: 'Vocês oferecem certificado?',
-    answer: 'Sim! Ao concluir o curso, você recebe um certificado físico e digital que comprova sua fluência no idioma escolhido.'
+    question: 'Posso fazer as aulas pelo celular?',
+    answer: 'Sim, você pode fazer pelo computador, notebook, tablet ou celular, desde que tenha acesso à internet.'
   },
   {
-    question: 'Qual é o tamanho das turmas?',
-    answer: 'As aulas são individuais, oferecendo suporte adequado a cada aluno. Assim, garantimos um acompanhamento de perto e atenção total às suas necessidades.'
+    question: 'Os professores são nativos?',
+    answer: 'Temos professores brasileiros fluentes e super competentes. A coordenação pedagógica avalia o perfil do aluno para indicar o melhor professor.'
+  },
+  {
+    question: 'Em quanto tempo consigo falar?',
+    answer: 'Depende da frequência e dedicação, mas a maioria dos alunos destrava a fala em menos de dois anos.'
   }
 ];
 

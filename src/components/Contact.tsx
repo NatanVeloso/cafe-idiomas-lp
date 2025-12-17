@@ -3,18 +3,6 @@ import { useInView } from '../hooks/useInView';
 
 const contactItems = [
   {
-    icon: Phone,
-    title: 'Telefone',
-    content: '+55 (34) 9969-0446',
-    color: 'bg-[#00415d]'
-  },
-  {
-    icon: Mail,
-    title: 'Email',
-    content: 'cafeidiomass@gmail.com',
-    color: 'bg-[#ee6b52]'
-  },
-  {
     icon: Instagram,
     title: 'Instagram',
     content: '@escola.cafe.idiomas',
@@ -27,7 +15,19 @@ const contactItems = [
     content: '@escola.cafe.idiomas',
     link: 'https://tiktok.com/@escola.cafe.idiomas',
     color: 'bg-[#ee6b52]'
-  }
+  },
+  {
+    icon: Phone,
+    title: 'Telefone',
+    content: '+55 (34) 9969-0446',
+    color: 'bg-[#00415d]'
+  },
+  {
+    icon: Mail,
+    title: 'Email',
+    content: 'cafeidiomass@gmail.com',
+    color: 'bg-[#ee6b52]'
+  },
 ];
 
 function ContactItem({ item, index }: { item: typeof contactItems[0]; index: number }) {
@@ -192,10 +192,26 @@ export default function Contact() {
                     <option value="ambos">Ambos</option>
                   </select>
                 </FormField>
-
+                
                 <FormField index={4}>
+                  <label htmlFor="level" className="block text-sm font-semibold text-[#00415d] mb-2">
+                    Seu Nível Atual
+                  </label>
+                  <select
+                    id="level"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all"
+                  >
+                    <option value="">Selecione seu nível</option>
+                    <option value="iniciante">Iniciante (nunca estudei)</option>
+                    <option value="basico">Básico (entendo pouco)</option>
+                    <option value="intermediario">Intermediário (consigo me comunicar)</option>
+                    <option value="avancado">Avançado (quero aperfeiçoar)</option>
+                  </select>
+                </FormField>
+
+                <FormField index={5}>
                   <label htmlFor="message" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Mensagem
+                    Objetivo
                   </label>
                   <textarea
                     id="message"
@@ -205,7 +221,8 @@ export default function Contact() {
                   ></textarea>
                 </FormField>
 
-                <FormField index={5}>
+
+                <FormField index={6}>
                   <button
                     type="submit"
                     className="w-full bg-[#ee6b52] hover:bg-[#ca523c] text-white font-semibold py-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center space-x-2"

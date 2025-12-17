@@ -15,9 +15,9 @@ export default function Hero() {
   const { ref: item2Ref, isInView: item2InView } = useInView({ threshold: 0.1 });
   const { ref: item3Ref, isInView: item3InView } = useInView({ threshold: 0.1 });
 
-  
+
   const { scrollToSection } = useScrollToSection();
-  
+
 
   const cardItems = [
     { icon: Globe, title: 'Inglês e Francês', desc: 'Dois idiomas, infinitas oportunidades', ref: item1Ref, isInView: item1InView },
@@ -26,7 +26,7 @@ export default function Hero() {
   ];
 
   return (
-<section className="relative bg-gradient-to-br from-[#00415d] to-[#09598f] text-white px-6 lg:px-20 xl:px-32">
+    <section className="relative bg-gradient-to-br from-[#00415d] to-[#09598f] text-white px-6 lg:px-20 xl:px-32">
       <div className="container mx-auto px-6 py-20 lg:py-32 pt-24 lg:pt-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -53,13 +53,14 @@ export default function Hero() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#ee6b52] hover:bg-[#ca523c] text-white px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 text-center"
+                className="bg-[#ee6b52] hover:bg-[#ca523c] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-semibold transition-all transform hover:scale-105 text-center"
               >
                 Agendar aula demonstrativa
               </a>
               <a
                 href="#about" onClick={(e) => scrollToSection(e, '#about')}
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full text-lg font-semibold transition-all border-2 border-white/30 text-center"
+                  className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-semibold transition-all border-2 border-white/30 text-center"
+
               >
                 Saiba Mais
               </a>

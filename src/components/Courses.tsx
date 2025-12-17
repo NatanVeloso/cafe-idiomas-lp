@@ -9,12 +9,17 @@ const courses = [
     price: 'Consultar',
     description: 'Domine o idioma mais falado do mundo, do básico ao avançado',
     level: 'Básico ao Avançado',
+    frequency: '1 a 2x por semana',
     message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o curso de Inglês.',
     features: [
-      'Aulas personalizadas ao seu nível',
-      'Materiais didáticos inclusos',
-      'Foco em conversação',
-      'Certificado ao final'
+      'Aulas particulares ao vivo e online',
+      'Acesso às aulas gravadas',
+      'Plataforma exclusiva',
+      'Material exclusivo incluso',
+      'Certificado físico e digital',
+      'Relatório semestral de evolução',
+      'Cronograma semanal de estudo',
+      'Método focado em conversação e fluência'
     ]
   },
   {
@@ -22,14 +27,19 @@ const courses = [
     price: 'Consultar',
     description: 'Aprenda dois idiomas e amplie suas oportunidades',
     level: 'Básico ao Avançado',
+    frequency: '1 a 2x por semana',
     featured: true,
     message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o curso de Inglês + Francês.',
     features: [
-      'Aulas de ambos os idiomas',
-      'Materiais didáticos inclusos',
-      'Foco em conversação',
-      'Flexibilidade de horários',
-      'Certificado ao final'
+      'Aulas particulares ao vivo e online',
+      'Acesso às aulas gravadas',
+      'Plataforma exclusiva',
+      'Material exclusivo incluso',
+      'Certificado físico e digital',
+      'Relatório semestral de evolução',
+      'Cronograma semanal de estudo',
+      'Método focado em conversação e fluência',
+      'Flexibilidade entre os dois idiomas'
     ]
   },
   {
@@ -37,12 +47,17 @@ const courses = [
     price: 'Consultar',
     description: 'Explore a beleza da língua francesa e sua cultura',
     level: 'Básico ao Avançado',
+    frequency: '1 a 2x por semana',
     message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o curso de Francês.',
     features: [
-      'Aulas personalizadas ao seu nível',
-      'Materiais didáticos inclusos',
-      'Foco em conversação',
-      'Certificado ao final'
+      'Aulas particulares ao vivo e online',
+      'Acesso às aulas gravadas',
+      'Plataforma exclusiva',
+      'Material exclusivo incluso',
+      'Certificado físico e digital',
+      'Relatório semestral de evolução',
+      'Cronograma semanal de estudo',
+      'Método focado em conversação e fluência'
     ]
   }
 ];
@@ -66,9 +81,12 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
         <h3 className="text-2xl font-bold text-[#00415d] mb-2">{course.name}</h3>
         <p className="text-[#515859] mb-4">{course.description}</p>
 
-        <div className="mb-6">
+        <div className="mb-6 space-y-1">
           <p className="text-sm text-[#515859]">
             <span className="font-semibold">Nível:</span> {course.level}
+          </p>
+          <p className="text-sm text-[#515859]">
+            <span className="font-semibold">Frequência:</span> {course.frequency}
           </p>
         </div>
 
@@ -94,10 +112,10 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
             : 'bg-gray-100 hover:bg-gray-200 text-[#00415d]'
             }`}
         >
-          Solicitar Mais Informações
+          Quero garantir minha vaga
         </a>
       </div>
-    </div >
+    </div>
   );
 }
 
