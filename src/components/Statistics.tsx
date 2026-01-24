@@ -21,11 +21,11 @@ const stats = [
   },
   {
     icon: Globe,
-    number: 16,
+    number: 21,
     prefix: '',
     suffix: '',
     title: 'Alcance Global',
-    description: 'Alunos em 11 estados e 5 países'
+    description: 'Alunos em 15 estados e 10 países'
   },
   {
     icon: TrendingUp,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import logo from '../assets/logoComCor.png';
-import logoWhite from '../assets/logoWhite.png';
+import logo from '../assets/logoComCorC.png';
+import logoWhite from '../assets/logoWhiteC.png';
 import { useScrollToSection } from '../hooks/useScrollToSection';
 
 interface HeaderProps {
@@ -35,10 +35,10 @@ export default function Header({ isScrolled }: HeaderProps) {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <img
-  src={isScrolled ? logo : logoWhite}
-  alt="Café Idiomas"
-  className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12'}`}
-/>
+            src={isScrolled ? logo : logoWhite}
+            alt="Café Idiomas"
+            className={`transition-all duration-300 ${isScrolled ? 'h-12' : 'h-12'}`}
+          />
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => (
@@ -47,8 +47,8 @@ export default function Header({ isScrolled }: HeaderProps) {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`transition-colors duration-300 text-sm font-medium ${isScrolled
-                    ? 'text-[#00415d] hover:text-[#ee6b52]'
-                    : 'text-white/80 hover:text-white'
+                  ? 'text-[#00415d] hover:text-[#ee6b52]'
+                  : 'text-white/80 hover:text-white'
                   }`}
               >
                 {link.label}
@@ -57,8 +57,8 @@ export default function Header({ isScrolled }: HeaderProps) {
             <a
               href="#"
               className={`px-5 py-2 rounded-full transition-all duration-300 text-sm font-semibold ${isScrolled
-                  ? 'bg-[#ee6b52] hover:bg-[#ca523c] text-white'
-                  : 'bg-white/20 hover:bg-white/30 text-white border border-white/40'
+                ? 'bg-[#ee6b52] hover:bg-[#ca523c] text-white'
+                : 'bg-white/20 hover:bg-white/30 text-white border border-white/40'
                 }`}
             >
               Sou Professor/Aluno
@@ -85,8 +85,8 @@ export default function Header({ isScrolled }: HeaderProps) {
             }`}
         >
           <div className={`rounded-2xl p-6 space-y-4 ${isScrolled
-              ? 'bg-gray-50'
-              : 'bg-[#00415d]/95 backdrop-blur-lg'
+            ? 'bg-gray-50'
+            : 'bg-[#00415d]/95 backdrop-blur-lg'
             }`}>
             {navLinks.map((link) => (
               <a
@@ -94,8 +94,8 @@ export default function Header({ isScrolled }: HeaderProps) {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`block transition-colors py-2 text-lg font-medium ${isScrolled
-                    ? 'text-[#00415d] hover:text-[#ee6b52]'
-                    : 'text-white hover:text-[#ee6b52]'
+                  ? 'text-[#00415d] hover:text-[#ee6b52]'
+                  : 'text-white hover:text-[#ee6b52]'
                   }`}
               >
                 {link.label}

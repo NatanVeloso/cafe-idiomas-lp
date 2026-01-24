@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     question: 'Em quanto tempo consigo falar?',
-    answer: 'Depende da frequência e dedicação, mas a maioria dos alunos destrava a fala em menos de dois anos.'
+    answer: 'Depende da frequência e dedicação, mas boa parte dos alunos destrava a fala entre 2 a 4 anos de curso.'
   }
 ];
 
