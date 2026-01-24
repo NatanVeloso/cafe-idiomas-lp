@@ -86,7 +86,7 @@ export default function Contact() {
   const { ref: formRef, isInView: formInView } = useInView({ threshold: 0.1 });
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20 bg-white overflow-x-hidden">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -192,7 +192,7 @@ export default function Contact() {
                     <option value="ambos">Ambos</option>
                   </select>
                 </FormField>
-                
+
                 <FormField index={4}>
                   <label htmlFor="level" className="block text-sm font-semibold text-[#00415d] mb-2">
                     Seu Nível Atual

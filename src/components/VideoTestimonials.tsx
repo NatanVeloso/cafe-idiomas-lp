@@ -34,9 +34,8 @@ function VideoCard({ video, index }: { video: typeof videos[0]; index: number })
   return (
     <div
       ref={ref}
-      className={`group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-700 bg-gradient-to-br from-[#00415d] to-[#09598f] p-1 ${
-        isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
+      className={`group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-700 bg-gradient-to-br from-[#00415d] to-[#09598f] p-1 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
       <div className="rounded-[20px] overflow-hidden bg-black">
@@ -55,7 +54,7 @@ function VideoCard({ video, index }: { video: typeof videos[0]; index: number })
               />
               {/* Overlay gradiente */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              
+
               {/* Botão de play */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-white transition-all duration-300">
@@ -95,17 +94,15 @@ export default function VideoTestimonials() {
         <div className="text-center mb-10 sm:mb-16">
           <h2
             ref={titleRef}
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00415d] mb-3 sm:mb-4 transition-all duration-700 ${
-              titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00415d] mb-3 sm:mb-4 transition-all duration-700 ${titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
           >
             Depoimentos em Vídeo
           </h2>
           <p
             ref={subtitleRef}
-            className={`text-base sm:text-lg lg:text-xl text-[#515859] max-w-2xl mx-auto transition-all duration-700 delay-150 ${
-              subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            className={`text-base sm:text-lg lg:text-xl text-[#515859] max-w-2xl mx-auto transition-all duration-700 delay-150 ${subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
           >
             Histórias reais de quem transformou sua comunicação em inglês e francês
           </p>
