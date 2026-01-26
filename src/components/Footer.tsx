@@ -20,14 +20,14 @@ export default function Footer() {
               Transformando vidas através do ensino de idiomas com qualidade, flexibilidade e paixão.
             </p>
             <div className="flex space-x-4">
-              <a href="https://www.instagram.com/escola.cafe.idiomas/" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+              <a href="https://www.instagram.com/escola.cafe.idiomas/" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all" aria-label="Instagram da Café Idiomas">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://www.tiktok.com/@escola.cafe.idiomas" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
+              <a href="https://www.tiktok.com/@escola.cafe.idiomas" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all" aria-label="TikTok da Café Idiomas">
                 <Music2 className="w-5 h-5" />
               </a>
               <a href="https://www.youtube.com/@CafeIdiomas" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all">
-                <Youtube className="w-5 h-5" />
+                <Youtube className="w-5 h-5" aria-label="YouTube da Café Idiomas" />
               </a>
             </div>
           </div>

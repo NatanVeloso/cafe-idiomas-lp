@@ -28,15 +28,17 @@ function App() {
     <div className="min-h-screen bg-white">
       <Header isScrolled={isScrolled} />
       <FloatingWhatsApp />
-      <Hero />
-      <Benefits />
-      <About />
-      <Testimonials />
-      <Statistics />
-      <VideoTestimonials />
-      <Courses />
-      <FAQ />
-      <Contact />
+      <main>
+        <Hero />
+        <Benefits />
+        <About />
+        <Testimonials />
+        <Statistics />
+        <VideoTestimonials />
+        <Courses />
+        <FAQ />
+        <Contact />
+      </main>
       <Footer />
     </div>
   );

@@ -125,6 +125,7 @@ function CourseCard({ course, index }: { course: typeof courses[0]; index: numbe
           href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(course.message)}`}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`Quero garantir minha vaga no curso de ${course.name}`}
           className={`block text-center py-3 rounded-lg font-semibold transition-all ${
             course.featured
               ? 'bg-[#ee6b52] hover:bg-[#ca523c] text-white'
