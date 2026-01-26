@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://escolacafeidiomas.com.br/sitemap.xml

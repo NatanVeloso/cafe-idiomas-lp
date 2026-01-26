@@ -71,7 +71,7 @@ export default function Benefits() {
   const { ref: subtitleRef, isInView: subtitleInView } = useInView({ threshold: 0.1 });
 
   return (
-    <section id="benefits" className="py-20 bg-gray-50">
+    <section id="benefits" className="py-20 bg-gray-50" aria-label="Benefícios do Café Idiomas">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2
