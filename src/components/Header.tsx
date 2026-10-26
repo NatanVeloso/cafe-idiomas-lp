@@ -55,7 +55,9 @@ export default function Header({ isScrolled }: HeaderProps) {
               </a>
             ))}
             <a
-              href="#"
+              href="https://portal.escolacafeidiomas.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`px-5 py-2 rounded-full transition-all duration-300 text-sm font-semibold ${isScrolled
                 ? 'bg-[#ee6b52] hover:bg-[#ca523c] text-white'
                 : 'bg-white/20 hover:bg-white/30 text-white border border-white/40'
@@ -102,7 +104,9 @@ export default function Header({ isScrolled }: HeaderProps) {
               </a>
             ))}
             <a
-              href="#"
+              href="https://portal.escolacafeidiomas.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
               className="block bg-[#ee6b52] hover:bg-[#ca523c] text-white text-center py-3 rounded-full font-semibold transition-all mt-4"
             >
               Sou Professor/Aluno
