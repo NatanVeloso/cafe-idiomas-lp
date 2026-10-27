@@ -42,7 +42,7 @@ export default function Hero() {
               className={`text-xl mb-8 text-blue-100 leading-relaxed transition-all duration-700 delay-150 ${subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
             >
-              Aulas particulares e ao vivo. Aprenda no seu ritmo e fale com confiança. Sua fluência começa aqui!
+              Aulas individuais ou em dupla, ao vivo e online. Escolha a modalidade ideal para você e aprenda com confiança, no seu ritmo e com foco na conversação!
             </p>
             <div
               ref={buttonsRef}

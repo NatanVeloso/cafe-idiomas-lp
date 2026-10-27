@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     question: 'As aulas são em grupo ou individuais?',
-    answer: 'As aulas são particulares, para garantir personalização total e evolução mais rápida.'
+    answer: 'Oferecemos duas modalidades: o Plano VIP, com aulas individuais e atenção exclusiva do professor, e o Plano Dupla, com aulas para duas pessoas. Ambas são ao vivo, online e focadas no desenvolvimento da comunicação.'
   },
   {
     question: 'Métodos de pagamento?',
@@ -29,7 +29,11 @@ const faqs = [
   },
   {
     question: 'Em quanto tempo consigo falar?',
-    answer: 'Depende da frequência e dedicação, mas boa parte dos alunos destrava a fala entre 2 a 4 anos de curso.'
+    answer: 'Depende da frequência e dedicação, mas boa parte dos alunos destrava a fala entre 2 e 4 anos de curso.'
+  },
+  {
+    question: 'Posso estudar com um amigo ou familiar?',
+    answer: 'Sim! O Plano Dupla é uma ótima opção para amigos, casais ou familiares que desejam aprender juntos. É importante considerar a compatibilidade de níveis e objetivos para aproveitar melhor as aulas.'
   }
 ];
 

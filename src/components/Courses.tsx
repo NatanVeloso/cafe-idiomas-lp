@@ -162,15 +162,17 @@ export default function Courses() {
               titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            Planos
+            Cursos e Planos
           </h2>
           <p
             ref={subtitleRef}
-            className={`text-base sm:text-lg lg:text-xl text-[#515859] max-w-2xl mx-auto transition-all duration-700 delay-150 ${
+            className={`text-base sm:text-lg lg:text-xl text-[#515859] max-w-6xl mx-auto transition-all duration-700 delay-150 ${
               subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            Escolha o formato ideal para a sua jornada no inglês e no francês
+            Escolha como você quer aprender!
+            <br />
+            Seja com atenção exclusiva ou compartilhando a experiência com outra pessoa, temos o plano ideal para você alcançar seus objetivos.
           </p>
         </div>
 
