@@ -1,5 +1,7 @@
-import { Mail, Phone, Instagram, Music2, Send } from 'lucide-react';
-import { useInView } from '../hooks/useInView';
+import { useState, type FormEvent } from 'react';
+import { motion } from 'motion/react';
+import { CheckCircle2, Loader2, Mail, Phone, Instagram, Music2, Send } from 'lucide-react';
+import { fadeUp, revealItem, scaleIn, slideInLeft, slideInRight, stagger, VIEWPORT } from '../motion/presets';
 
 const contactItems = [
   {
@@ -7,232 +9,301 @@ const contactItems = [
     title: 'Instagram',
     content: '@escola.cafe.idiomas',
     link: 'https://instagram.com/escola.cafe.idiomas',
-    color: 'bg-[#00415d]'
+    color: 'bg-cafe-navy',
   },
   {
     icon: Music2,
     title: 'TikTok',
     content: '@escola.cafe.idiomas',
     link: 'https://tiktok.com/@escola.cafe.idiomas',
-    color: 'bg-[#ee6b52]'
+    color: 'bg-cafe-coral',
   },
   {
     icon: Phone,
     title: 'Telefone',
     content: '+55 (34) 9969-0446',
-    color: 'bg-[#00415d]'
+    color: 'bg-cafe-navy',
   },
   {
     icon: Mail,
     title: 'Email',
     content: 'cafeidiomass@gmail.com',
-    color: 'bg-[#ee6b52]'
+    color: 'bg-cafe-coral',
   },
 ];
 
-function ContactItem({ item, index }: { item: typeof contactItems[0]; index: number }) {
-  const { ref, isInView } = useInView({ threshold: 0.1 });
-  const Icon = item.icon;
+const inputClass =
+  'w-full rounded-xl border border-cafe-sand bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-cafe-navy';
 
-  return (
-    <div
-      ref={ref}
-      className={`flex items-start space-x-4 transition-all duration-700 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-        }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
-      <div className={`${item.color} p-3 rounded-lg`}>
-        <Icon className="w-6 h-6 text-white" />
-      </div>
-      <div>
-        <h4 className="font-semibold text-[#00415d] mb-1">{item.title}</h4>
-        {item.link ? (
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#515859] hover:text-[#ee6b52] transition-colors"
-          >
-            {item.content}
-          </a>
-        ) : (
-          <p className="text-[#515859]">{item.content}</p>
-        )}
-      </div>
-    </div>
-  );
-}
+/** API da escola (portal). Em dev, aponte VITE_API_URL para o backend local. */
+const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'https://api.escolacafeidiomas.com.br';
 
-function FormField({ children, index }: { children: React.ReactNode; index: number }) {
-  const { ref, isInView } = useInView({ threshold: 0.1 });
+const WHATSAPP_URL = `https://wa.me/553499690446?text=${encodeURIComponent(
+  'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre os cursos.',
+)}`;
 
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
-      {children}
-    </div>
-  );
-}
+type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 export default function Contact() {
-  const { ref: titleRef, isInView: titleInView } = useInView({ threshold: 0.1 });
-  const { ref: subtitleRef, isInView: subtitleInView } = useInView({ threshold: 0.1 });
-  const { ref: contactTitleRef, isInView: contactTitleInView } = useInView({ threshold: 0.1 });
-  const { ref: scheduleRef, isInView: scheduleInView } = useInView({ threshold: 0.1 });
-  const { ref: formRef, isInView: formInView } = useInView({ threshold: 0.1 });
+  const [status, setStatus] = useState<Status>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (status === 'sending') return;
+
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form));
+
+    setStatus('sending');
+    try {
+      const res = await fetch(`${API_URL}/public/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        form.reset();
+        setStatus('sent');
+        return;
+      }
+
+      setErrorMessage(
+        res.status === 429
+          ? 'Você já enviou algumas mensagens agora há pouco. Tente de novo em alguns minutos ou'
+          : res.status === 400
+            ? 'Confira se nome, e-mail e telefone estão preenchidos corretamente. Se preferir,'
+            : 'Não conseguimos enviar sua mensagem agora. Tente novamente ou',
+      );
+      setStatus('error');
+    } catch {
+      setErrorMessage('Sem conexão com o servidor. Tente novamente ou');
+      setStatus('error');
+    }
+  };
 
   return (
-    <section id="contact" className="py-20 bg-white overflow-x-hidden">
+    <section id="contact" className="overflow-x-hidden bg-white py-20 lg:py-24">
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2
-              ref={titleRef}
-              className={`text-4xl lg:text-5xl font-bold text-[#00415d] mb-4 transition-all duration-700 ${titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-            >
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            variants={stagger(0.1)}
+            className="mb-14 text-center lg:mb-16"
+          >
+            <motion.h2 variants={fadeUp} className="font-bold mb-4 text-4xl text-cafe-navy lg:text-5xl">
               Entre em Contato
-            </h2>
-            <p
-              ref={subtitleRef}
-              className={`text-xl text-[#515859] max-w-3xl mx-auto transition-all duration-700 delay-150 ${subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-            >
+            </motion.h2>
+            <motion.p variants={fadeUp} className="mx-auto max-w-3xl text-lg text-cafe-ink lg:text-xl">
               Pronto para começar a sua jornada rumo à fluência? Fale com a nossa equipe
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid gap-12 lg:grid-cols-2">
             <div>
-              <h3
-                ref={contactTitleRef}
-                className={`text-2xl font-bold text-[#00415d] mb-6 transition-all duration-700 ${contactTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}
-              >
+              <motion.h3 variants={fadeUp} {...revealItem()} className="mb-6 text-2xl font-bold text-cafe-navy">
                 Fale Conosco
-              </h3>
+              </motion.h3>
 
-              <div className="space-y-6 mb-8">
+              <div className="mb-8 space-y-6">
                 {contactItems.map((item, index) => (
-                  <ContactItem key={index} item={item} index={index} />
+                  <motion.div
+                    key={item.title}
+                    variants={slideInLeft}
+                    {...revealItem(index * 0.1)}
+                    className="flex items-start gap-4"
+                  >
+                    <div className={`${item.color} rounded-lg p-3`}>
+                      <item.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="mb-1 font-semibold text-cafe-navy">{item.title}</h4>
+                      {item.link ? (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cafe-ink transition-colors hover:text-cafe-coral"
+                        >
+                          {item.content}
+                        </a>
+                      ) : (
+                        <p className="text-cafe-ink">{item.content}</p>
+                      )}
+                    </div>
+                  </motion.div>
                 ))}
               </div>
 
-              <div
-                ref={scheduleRef}
-                className={`bg-gradient-to-br from-[#00415d] to-[#09598f] rounded-2xl p-8 text-white transition-all duration-700 ${scheduleInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                  }`}
+              <motion.div
+                variants={scaleIn}
+                {...revealItem()}
+                className="rounded-2xl bg-gradient-to-br from-cafe-navy to-cafe-blue p-8 text-white"
               >
-                <h4 className="text-xl font-bold mb-4">Horário de Atendimento</h4>
-                <div className="space-y-2 text-blue-100">
+                <h4 className="mb-4 text-xl font-bold">Horário de Atendimento</h4>
+                <div className="space-y-2 text-cafe-cream/80">
                   <p>Segunda a Sexta: 7h às 20h</p>
                   <p>Sábado: 8h às 12h</p>
                   <p>Domingo: Fechado</p>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
-            <div
-              ref={formRef}
-              className={`bg-gray-50 rounded-2xl p-8 transition-all duration-700 ${formInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-                }`}
+            <motion.div
+              variants={slideInRight}
+              {...revealItem(0.1)}
+              className="rounded-2xl border border-cafe-sand/70 bg-cafe-cream p-8"
             >
-              <form className="space-y-6">
-                <FormField index={0}>
-                  <label htmlFor="name" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Nome Completo
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all"
-                    placeholder="Seu nome"
-                  />
-                </FormField>
-
-                <FormField index={1}>
-                  <label htmlFor="email" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all"
-                    placeholder="seu@email.com"
-                  />
-                </FormField>
-
-                <FormField index={2}>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Telefone
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all"
-                    placeholder="(34) 99999-9999"
-                  />
-                </FormField>
-
-                <FormField index={3}>
-                  <label htmlFor="course" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Idioma de Interesse
-                  </label>
-                  <select
-                    id="course"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all"
-                  >
-                    <option value="">Selecione um idioma</option>
-                    <option value="ingles">Inglês</option>
-                    <option value="frances">Francês</option>
-                    <option value="ambos">Ambos</option>
-                  </select>
-                </FormField>
-
-                <FormField index={4}>
-                  <label htmlFor="level" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Seu Nível Atual
-                  </label>
-                  <select
-                    id="level"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all"
-                  >
-                    <option value="">Selecione seu nível</option>
-                    <option value="iniciante">Iniciante (nunca estudei)</option>
-                    <option value="basico">Básico (entendo pouco)</option>
-                    <option value="intermediario">Intermediário (consigo me comunicar)</option>
-                    <option value="avancado">Avançado (quero aperfeiçoar)</option>
-                  </select>
-                </FormField>
-
-                <FormField index={5}>
-                  <label htmlFor="message" className="block text-sm font-semibold text-[#00415d] mb-2">
-                    Objetivo
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#00415d] focus:border-transparent outline-none transition-all resize-none"
-                    placeholder="Conte-nos um pouco sobre seus objetivos..."
-                  ></textarea>
-                </FormField>
-
-
-                <FormField index={6}>
+              {status === 'sent' ? (
+                <div className="flex min-h-[420px] flex-col items-center justify-center text-center" role="status">
+                  <CheckCircle2 className="mb-4 h-14 w-14 text-cafe-coral" />
+                  <h4 className="mb-2 text-2xl font-bold text-cafe-navy">Mensagem enviada!</h4>
+                  <p className="max-w-sm text-cafe-ink">
+                    Obrigado pelo contato. Nossa equipe vai responder em breve no e-mail ou telefone que você informou.
+                  </p>
                   <button
-                    type="submit"
-                    className="w-full bg-[#ee6b52] hover:bg-[#ca523c] text-white font-semibold py-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center space-x-2"
+                    type="button"
+                    onClick={() => setStatus('idle')}
+                    className="mt-6 text-sm font-semibold text-cafe-blue underline underline-offset-2 hover:text-cafe-navy"
                   >
-                    <span>Enviar Mensagem</span>
-                    <Send className="w-5 h-5" />
+                    Enviar outra mensagem
                   </button>
-                </FormField>
-              </form>
-            </div>
+                </div>
+              ) : (
+                <form className="relative space-y-6" onSubmit={handleSubmit}>
+                  {/* Honeypot anti-spam: invisível para pessoas, bots costumam preencher. */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                    <label htmlFor="website">Não preencha este campo</label>
+                    <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
+                  </div>
+
+                  <div>
+                    <label htmlFor="name" className="mb-2 block text-sm font-semibold text-cafe-navy">
+                      Nome Completo
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      maxLength={120}
+                      autoComplete="name"
+                      className={inputClass}
+                      placeholder="Seu nome"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="mb-2 block text-sm font-semibold text-cafe-navy">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      maxLength={160}
+                      autoComplete="email"
+                      className={inputClass}
+                      placeholder="seu@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="mb-2 block text-sm font-semibold text-cafe-navy">
+                      Telefone
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
+                      maxLength={40}
+                      autoComplete="tel"
+                      className={inputClass}
+                      placeholder="(34) 99999-9999"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="course" className="mb-2 block text-sm font-semibold text-cafe-navy">
+                      Idioma de Interesse
+                    </label>
+                    <select id="course" name="language" className={inputClass}>
+                      <option value="">Selecione um idioma</option>
+                      <option value="ingles">Inglês</option>
+                      <option value="frances">Francês</option>
+                      <option value="ambos">Ambos</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="level" className="mb-2 block text-sm font-semibold text-cafe-navy">
+                      Seu Nível Atual
+                    </label>
+                    <select id="level" name="level" className={inputClass}>
+                      <option value="">Selecione seu nível</option>
+                      <option value="iniciante">Iniciante (nunca estudei)</option>
+                      <option value="basico">Básico (entendo pouco)</option>
+                      <option value="intermediario">Intermediário (consigo me comunicar)</option>
+                      <option value="avancado">Avançado (quero aperfeiçoar)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="mb-2 block text-sm font-semibold text-cafe-navy">
+                      Objetivo
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={4}
+                      maxLength={2000}
+                      className={`${inputClass} resize-none`}
+                      placeholder="Conte-nos um pouco sobre seus objetivos..."
+                    ></textarea>
+                  </div>
+
+                  {status === 'error' && (
+                    <p role="alert" className="rounded-xl bg-cafe-coral/10 px-4 py-3 text-sm text-cafe-coral-dark">
+                      {errorMessage}{' '}
+                      <a
+                        href={WHATSAPP_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold underline underline-offset-2"
+                      >
+                        fale com a gente no WhatsApp
+                      </a>
+                      .
+                    </p>
+                  )}
+
+                  <motion.button
+                    type="submit"
+                    disabled={status === 'sending'}
+                    whileHover={status === 'sending' ? undefined : { y: -2 }}
+                    whileTap={status === 'sending' ? undefined : { scale: 0.97 }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-cafe-coral py-4 font-semibold text-white shadow-[0_12px_30px_-10px_rgba(238,107,82,0.8)] transition-colors hover:bg-cafe-coral-dark disabled:cursor-wait disabled:opacity-80"
+                  >
+                    {status === 'sending' ? (
+                      <>
+                        <span>Enviando...</span>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      </>
+                    ) : (
+                      <>
+                        <span>Enviar Mensagem</span>
+                        <Send className="h-5 w-5" />
+                      </>
+                    )}
+                  </motion.button>
+                </form>
+              )}
+            </motion.div>
           </div>
         </div>
       </div>

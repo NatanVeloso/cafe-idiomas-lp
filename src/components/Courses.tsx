@@ -1,5 +1,6 @@
+import { motion } from 'motion/react';
 import { Check } from 'lucide-react';
-import { useInView } from '../hooks/useInView';
+import { fadeUp, hoverLift, revealItem, stagger, VIEWPORT } from '../motion/presets';
 
 const phoneNumber = '553499690446';
 
@@ -24,7 +25,7 @@ const courses: Course[] = [
     message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano Dupla.',
     plans: [
       { frequency: '1x por semana', price: 'R$ 320', period: 'por pessoa/mês' },
-      { frequency: '2x por semana', price: 'R$ 580', period: 'por pessoa/mês' }
+      { frequency: '2x por semana', price: 'R$ 580', period: 'por pessoa/mês' },
     ],
     features: [
       'Aprendizado com troca entre alunos',
@@ -32,9 +33,9 @@ const courses: Course[] = [
       'Gravação das aulas para revisão',
       'Plataforma exclusiva',
       'Material didático incluso',
-      'Certificado de conclusão'
+      'Certificado de conclusão',
     ],
-    cta: 'Quero garantir minha vaga'
+    cta: 'Quero garantir minha vaga',
   },
   {
     name: 'Plano VIP',
@@ -44,7 +45,7 @@ const courses: Course[] = [
     message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano VIP.',
     plans: [
       { frequency: '1x por semana', price: 'R$ 455', period: 'por mês' },
-      { frequency: '2x por semana', price: 'R$ 860', period: 'por mês' }
+      { frequency: '2x por semana', price: 'R$ 860', period: 'por mês' },
     ],
     features: [
       'Aulas particulares ao vivo e online',
@@ -52,62 +53,63 @@ const courses: Course[] = [
       'Gravação das aulas para revisão',
       'Plataforma exclusiva',
       'Material didático incluso',
-      'Certificado de conclusão'
+      'Certificado de conclusão',
     ],
-    cta: 'Quero garantir minha vaga'
+    cta: 'Quero garantir minha vaga',
   },
   {
     name: 'Plano Trilíngue',
     description: 'Para quem deseja combinar inglês e francês de forma flexível e com condições especiais.',
-    message: 'Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do Plano Trilíngue (inglês + francês).',
+    message:
+      'Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do Plano Trilíngue (inglês + francês).',
     customQuote: {
       title: 'Orçamento sob medida',
-      subtitle: 'Monte a combinação ideal com a escola'
+      subtitle: 'Monte a combinação ideal com a escola',
     },
     features: [
       'Combine inglês e francês como preferir',
       'Mais liberdade para criar sua rotina',
-      'Indicado para objetivos personalizados'
+      'Indicado para objetivos personalizados',
     ],
-    cta: 'Solicitar orçamento'
-  }
+    cta: 'Solicitar orçamento',
+  },
 ];
 
 function CourseCard({ course, index }: { course: Course; index: number }) {
-  const { ref, isInView } = useInView({ threshold: 0.1 });
-
   return (
-    <div
-      ref={ref}
-      className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden border-2 duration-700 ${
-        course.featured ? 'border-[#ee6b52] lg:scale-105' : 'border-gray-100'
-      } ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-      style={{ transitionDelay: `${index * 150}ms` }}
+    // The featured scale lives on a plain wrapper: motion writes its own inline transform on the card,
+    // which would otherwise wipe out Tailwind's scale.
+    <div className={course.featured ? 'lg:scale-105' : undefined}>
+    <motion.div
+      variants={fadeUp}
+      {...revealItem((index % 3) * 0.12)}
+      whileHover={hoverLift}
+      className={`relative overflow-hidden rounded-2xl border-2 bg-white shadow-card transition-shadow duration-300 hover:shadow-card-hover ${
+        course.featured ? 'border-cafe-coral' : 'border-cafe-sand/70'
+      }`}
     >
       {course.featured && (
-        <div className="bg-[#ee6b52] text-white py-2 px-4 text-center font-semibold">
+        <div className="bg-cafe-coral px-4 py-2 text-center text-sm font-semibold uppercase tracking-wider text-white">
           {course.badge}
         </div>
       )}
       <div className="p-6 sm:p-8">
-        <h3 className="text-2xl font-bold text-[#00415d] mb-2">{course.name}</h3>
-        <p className="text-[#515859] mb-4">{course.description}</p>
+        <h3 className="mb-2 text-2xl font-bold text-cafe-navy">{course.name}</h3>
+        <p className="mb-5 text-cafe-ink">{course.description}</p>
 
-
-        {/* Opções de preço */}
         {course.plans && (
-          <div className="space-y-3 mb-6">
+          <div className="mb-6 space-y-3">
             {course.plans.map((plan, i) => (
               <div
-                key={i}
-                className={`flex items-center justify-between p-3 rounded-lg ${
-                  i === 1 ? 'bg-[#00415d]/5 border border-[#00415d]/10' : 'bg-gray-50'
+                key={plan.frequency}
+                className={`flex items-center justify-between rounded-xl p-3 ${
+                  i === 1 ? 'border border-cafe-navy/10 bg-cafe-navy/5' : 'bg-cafe-cream'
                 }`}
               >
-                <span className="text-sm text-[#515859] font-medium">{plan.frequency}</span>
+                <span className="text-sm font-medium text-cafe-ink">{plan.frequency}</span>
                 <div className="text-right">
-                  <span className="text-xl font-bold text-[#00415d]">{plan.price}</span>
-                  <span className="block text-xs text-[#515859]">{plan.period}</span>
+                  <span className="text-xl font-bold text-cafe-navy">{plan.price}</span>
+                  <span className="block text-xs text-cafe-ink">{plan.period}</span>
                 </div>
               </div>
             ))}
@@ -115,70 +117,68 @@ function CourseCard({ course, index }: { course: Course; index: number }) {
         )}
 
         {course.customQuote && (
-          <div className="mb-6 p-6 rounded-lg bg-gray-50 text-center">
-            <p className="text-lg font-bold text-[#00415d]">{course.customQuote.title}</p>
-            <p className="text-sm text-[#515859] mt-1">{course.customQuote.subtitle}</p>
+          <div className="mb-6 rounded-xl bg-cafe-cream p-6 text-center">
+            <p className="text-lg font-bold text-cafe-navy">{course.customQuote.title}</p>
+            <p className="mt-1 text-sm text-cafe-ink">{course.customQuote.subtitle}</p>
           </div>
         )}
 
-        <ul className="space-y-3 mb-8">
-          {course.features.map((feature, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <Check className="w-5 h-5 text-[#09598f] flex-shrink-0 mt-0.5" />
-              <span className="text-[#515859] text-sm">{feature}</span>
+        <ul className="mb-8 space-y-3">
+          {course.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-cafe-blue/10">
+                <Check className="h-3.5 w-3.5 text-cafe-blue" strokeWidth={3} />
+              </span>
+              <span className="text-sm text-cafe-ink">{feature}</span>
             </li>
           ))}
         </ul>
 
-        <a
+        <motion.a
           href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(course.message)}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${course.cta} - ${course.name}`}
-          className={`block text-center py-3 rounded-lg font-semibold transition-all ${
+          whileTap={{ scale: 0.97 }}
+          className={`block rounded-xl py-3.5 text-center font-semibold transition-colors ${
             course.featured
-              ? 'bg-[#ee6b52] hover:bg-[#ca523c] text-white'
-              : 'bg-gray-100 hover:bg-gray-200 text-[#00415d]'
+              ? 'bg-cafe-coral text-white shadow-[0_12px_30px_-10px_rgba(238,107,82,0.8)] hover:bg-cafe-coral-dark'
+              : 'bg-cafe-cream-2 text-cafe-navy hover:bg-cafe-sand'
           }`}
         >
           {course.cta}
-        </a>
+        </motion.a>
       </div>
+    </motion.div>
     </div>
   );
 }
 
 export default function Courses() {
-  const { ref: titleRef, isInView: titleInView } = useInView({ threshold: 0.1 });
-  const { ref: subtitleRef, isInView: subtitleInView } = useInView({ threshold: 0.1 });
-
   return (
-    <section id="courses" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+    <section id="courses" className="bg-cafe-cream py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-10 sm:mb-16">
-          <h2
-            ref={titleRef}
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00415d] mb-3 sm:mb-4 transition-all duration-700 ${
-              titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-          >
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          variants={stagger(0.1)}
+          className="mb-10 text-center sm:mb-16"
+        >
+          <motion.h2 variants={fadeUp} className="font-bold mb-3 text-3xl text-cafe-navy sm:mb-4 sm:text-4xl lg:text-5xl">
             Cursos e Planos
-          </h2>
-          <p
-            ref={subtitleRef}
-            className={`text-base sm:text-lg lg:text-xl text-[#515859] max-w-6xl mx-auto transition-all duration-700 delay-150 ${
-              subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-          >
+          </motion.h2>
+          <motion.p variants={fadeUp} className="mx-auto max-w-3xl text-base text-cafe-ink sm:text-lg lg:text-xl">
             Escolha como você quer aprender!
             <br />
-            Seja com atenção exclusiva ou compartilhando a experiência com outra pessoa, temos o plano ideal para você alcançar seus objetivos.
-          </p>
-        </div>
+            Seja com atenção exclusiva ou compartilhando a experiência com outra pessoa, temos o plano ideal para você
+            alcançar seus objetivos.
+          </motion.p>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {courses.map((course, index) => (
-            <CourseCard key={index} course={course} index={index} />
+            <CourseCard key={course.name} course={course} index={index} />
           ))}
         </div>
       </div>

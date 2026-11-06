@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import logo from '../assets/logoComCorC.png';
-import logoWhite from '../assets/logoWhiteC.png';
+import logo from '../assets/logoComCorC.webp';
+import logoWhite from '../assets/logoWhiteC.webp';
 import { useScrollToSection } from '../hooks/useScrollToSection';
 
 interface HeaderProps {
@@ -47,7 +47,7 @@ export default function Header({ isScrolled }: HeaderProps) {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`transition-colors duration-300 text-sm font-medium ${isScrolled
-                  ? 'text-[#00415d] hover:text-[#ee6b52]'
+                  ? 'text-cafe-navy hover:text-cafe-coral'
                   : 'text-white/80 hover:text-white'
                   }`}
               >
@@ -59,7 +59,7 @@ export default function Header({ isScrolled }: HeaderProps) {
               target="_blank"
               rel="noopener noreferrer"
               className={`px-5 py-2 rounded-full transition-all duration-300 text-sm font-semibold ${isScrolled
-                ? 'bg-[#ee6b52] hover:bg-[#ca523c] text-white'
+                ? 'bg-cafe-coral hover:bg-cafe-coral-dark text-white'
                 : 'bg-white/20 hover:bg-white/30 text-white border border-white/40'
                 }`}
             >
@@ -70,7 +70,7 @@ export default function Header({ isScrolled }: HeaderProps) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`lg:hidden p-2 ${isScrolled ? 'text-[#00415d]' : 'text-white'}`}
+            className={`lg:hidden p-2 ${isScrolled ? 'text-cafe-navy' : 'text-white'}`}
             aria-label="Menu"
           >
             {mobileMenuOpen ? (
@@ -87,8 +87,8 @@ export default function Header({ isScrolled }: HeaderProps) {
             }`}
         >
           <div className={`rounded-2xl p-6 space-y-4 ${isScrolled
-            ? 'bg-gray-50'
-            : 'bg-[#00415d]/95 backdrop-blur-lg'
+            ? 'bg-cafe-cream'
+            : 'bg-cafe-navy/95 backdrop-blur-lg'
             }`}>
             {navLinks.map((link) => (
               <a
@@ -96,8 +96,8 @@ export default function Header({ isScrolled }: HeaderProps) {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`block transition-colors py-2 text-lg font-medium ${isScrolled
-                  ? 'text-[#00415d] hover:text-[#ee6b52]'
-                  : 'text-white hover:text-[#ee6b52]'
+                  ? 'text-cafe-navy hover:text-cafe-coral'
+                  : 'text-white hover:text-cafe-coral'
                   }`}
               >
                 {link.label}
@@ -107,7 +107,7 @@ export default function Header({ isScrolled }: HeaderProps) {
               href="https://portal.escolacafeidiomas.com.br"
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-[#ee6b52] hover:bg-[#ca523c] text-white text-center py-3 rounded-full font-semibold transition-all mt-4"
+              className="block bg-cafe-coral hover:bg-cafe-coral-dark text-white text-center py-3 rounded-full font-semibold transition-all mt-4"
             >
               Sou Professor/Aluno
             </a>

@@ -1,101 +1,83 @@
+import { motion } from 'motion/react';
 import { Zap, MessageSquare, Banknote, Sparkles, Award, Coffee } from 'lucide-react';
-import { useInView } from '../hooks/useInView';
+import { fadeUp, hoverLift, revealItem, stagger, VIEWPORT } from '../motion/presets';
 
 const benefits = [
   {
     icon: MessageSquare,
-    title: 'CONVERSAÇÃO',
+    title: 'Conversação',
     description: 'Fale com naturalidade desde a primeira aula',
-    color: 'bg-[#00415d]'
+    color: 'bg-cafe-navy',
   },
   {
     icon: Coffee,
-    title: 'LEVEZA',
+    title: 'Leveza',
     description: 'Aulas dinâmicas com séries, filmes e jogos',
-    color: 'bg-[#ee6b52]'
+    color: 'bg-cafe-coral',
   },
   {
     icon: Sparkles,
-    title: 'PERSONALIZAÇÃO',
+    title: 'Personalização',
     description: 'Conteúdo adaptado às suas necessidades e objetivos',
-    color: 'bg-[#00415d]'
+    color: 'bg-cafe-navy',
   },
   {
     icon: Zap,
-    title: 'FLEXIBILIDADE',
+    title: 'Flexibilidade',
     description: 'Estude de qualquer lugar, no seu ritmo',
-    color: 'bg-[#ee6b52]'
+    color: 'bg-cafe-coral',
   },
   {
     icon: Banknote,
-    title: 'ECONOMIA',
+    title: 'Economia',
     description: 'Sem taxa de matrícula e sem taxa de material',
-    color: 'bg-[#00415d]'
+    color: 'bg-cafe-navy',
   },
   {
     icon: Award,
-    title: 'CERTIFICAÇÃO',
+    title: 'Certificação',
     description: 'Certificado físico e digital ao final do curso',
-    color: 'bg-[#ee6b52]'
-  }
+    color: 'bg-cafe-coral',
+  },
 ];
 
-function BenefitCard({ benefit, index }: { benefit: typeof benefits[0]; index: number }) {
-  const { ref, isInView } = useInView({ threshold: 0.1 });
-
-  return (
-    <div
-      ref={ref}
-      className={`bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-gray-100 duration-700 ${
-        isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
-    >
-      <div className="flex items-center gap-4 mb-4">
-        <div className={`${benefit.color} w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0`}>
-          <benefit.icon className="w-6 h-6 text-white" />
-        </div>
-        <h3 className="text-sm font-bold text-[#515859] tracking-wider">
-          {benefit.title}
-        </h3>
-      </div>
-      <p className="text-lg font-semibold text-[#00415d] leading-relaxed">
-        {benefit.description}
-      </p>
-    </div>
-  );
-}
-
 export default function Benefits() {
-  const { ref: titleRef, isInView: titleInView } = useInView({ threshold: 0.1 });
-  const { ref: subtitleRef, isInView: subtitleInView } = useInView({ threshold: 0.1 });
-
   return (
-    <section id="benefits" className="py-20 bg-gray-50" aria-label="Benefícios do Café Idiomas">
+    <section id="benefits" className="bg-cafe-cream py-20 lg:py-24" aria-label="Benefícios do Café Idiomas">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2
-            ref={titleRef}
-            className={`text-4xl lg:text-5xl font-bold text-[#00415d] mb-4 transition-all duration-700 ${titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-          >
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          variants={stagger(0.1)}
+          className="mb-14 text-center lg:mb-16"
+        >
+          <motion.h2 variants={fadeUp} className="font-bold mb-4 text-4xl text-cafe-navy lg:text-5xl">
             Por que escolher a Café Idiomas?
-          </h2>
-          <p
-            ref={subtitleRef}
-            className={`text-xl text-[#515859] max-w-2xl mx-auto transition-all duration-700 delay-150 ${subtitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-          >
+          </motion.h2>
+          <motion.p variants={fadeUp} className="mx-auto max-w-2xl text-lg text-cafe-ink lg:text-xl">
             Para quem está cansado de estudar anos e não conseguir falar
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <div className="flex justify-center">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl">
-            {benefits.map((benefit, index) => (
-              <BenefitCard key={index} benefit={benefit} index={index} />
-            ))}
-          </div>
+        <div className="mx-auto grid w-full max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {benefits.map((benefit, index) => (
+            <motion.div
+              key={benefit.title}
+              variants={fadeUp}
+              {...revealItem((index % 3) * 0.1)}
+              whileHover={hoverLift}
+              className="rounded-2xl border border-cafe-sand/70 bg-white p-6 shadow-card transition-shadow duration-300 hover:shadow-card-hover"
+            >
+              <div className="mb-4 flex items-center gap-4">
+                <div className={`${benefit.color} flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl`}>
+                  <benefit.icon className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-cafe-ink">{benefit.title}</h3>
+              </div>
+              <p className="text-lg font-semibold leading-relaxed text-cafe-navy">{benefit.description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
