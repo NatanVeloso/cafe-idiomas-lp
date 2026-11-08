@@ -6,16 +6,9 @@ import { EASE_OUT, fadeUpSoft, stagger } from '../motion/presets';
 import HeroVisual from './hero/HeroVisual';
 import { heroChips } from './hero/chips';
 
-import Elisa from '../assets/Elisa.webp';
-import Rejane from '../assets/Rejane.webp';
-import Daniel from '../assets/Daniel.webp';
-import Luiza from '../assets/Luiza.webp';
-
 const phoneNumber = '553499690446';
 const message = 'Olá! Vim pelo site Café Idiomas e gostaria de agendar uma aula demonstrativa.';
 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-const trustAvatars = [Elisa, Rejane, Daniel, Luiza];
 
 const word: Variants = {
   hidden: { opacity: 0, y: '0.45em' },
@@ -108,19 +101,6 @@ export default function Hero() {
 
             {/* Social proof */}
             <motion.div variants={fadeUpSoft} className="mt-10 flex items-center gap-4">
-              <div className="flex -space-x-3">
-                {trustAvatars.map((src, i) => (
-                  <img
-                    key={i}
-                    src={src}
-                    alt=""
-                    width={40}
-                    height={40}
-                    loading="eager"
-                    className="h-10 w-10 rounded-full border-2 border-cafe-navy object-cover"
-                  />
-                ))}
-              </div>
               <div className="text-sm leading-tight">
                 <div className="mb-0.5 flex gap-0.5" aria-label="5 estrelas">
                   {Array.from({ length: 5 }).map((_, i) => (

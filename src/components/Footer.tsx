@@ -1,6 +1,7 @@
 import logo from '../assets/logoWhite.webp';
 import { Instagram, Youtube, Music2 } from 'lucide-react';
 import { useScrollToSection } from '../hooks/useScrollToSection';
+import { PRIVACY_URL, SCHOOL_LEGAL, TERMS_URL } from '../legal';
 
 export default function Footer() {
 
@@ -45,7 +46,22 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/20 pt-8 text-center text-cafe-cream/80">
+        <div className="flex flex-col items-center gap-3 border-t border-white/20 pt-8 text-center text-sm text-cafe-cream/80">
+          <nav aria-label="Documentos legais" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer" className="underline-offset-2 transition-colors hover:text-cafe-coral hover:underline">
+              Política de Privacidade
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href={TERMS_URL} target="_blank" rel="noopener noreferrer" className="underline-offset-2 transition-colors hover:text-cafe-coral hover:underline">
+              Termos de Uso do portal
+            </a>
+          </nav>
+          <p>
+            {SCHOOL_LEGAL.legalName} · CNPJ {SCHOOL_LEGAL.cnpj} · Escola 100% online ·{' '}
+            <a href={`mailto:${SCHOOL_LEGAL.privacyEmail}`} className="underline-offset-2 hover:text-cafe-coral hover:underline">
+              {SCHOOL_LEGAL.privacyEmail}
+            </a>
+          </p>
           <p>&copy; {new Date().getFullYear()} Café Idiomas. Todos os direitos reservados.</p>
         </div>
       </div>

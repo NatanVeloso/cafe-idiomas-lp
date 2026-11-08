@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { motion } from 'motion/react';
 import { CheckCircle2, Loader2, Mail, Phone, Instagram, Music2, Send } from 'lucide-react';
 import { fadeUp, revealItem, scaleIn, slideInLeft, slideInRight, stagger, VIEWPORT } from '../motion/presets';
+import { PRIVACY_URL } from '../legal';
 
 const contactItems = [
   {
@@ -301,6 +302,24 @@ export default function Contact() {
                       </>
                     )}
                   </motion.button>
+
+                  {/* Aviso de privacidade (LGPD, art. 9º): não é checkbox de
+                      consentimento — a base legal do formulário é "procedimentos
+                      preliminares a contrato, a pedido do titular" (art. 7º, V),
+                      que não depende de aceite. O que a lei exige é informar. */}
+                  <p className="text-center text-xs leading-relaxed text-cafe-ink/80">
+                    Usamos seus dados só para responder ao seu contato e falar sobre os cursos, e os
+                    guardamos por até 12 meses se você não se matricular. Saiba mais na{' '}
+                    <a
+                      href={PRIVACY_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-cafe-blue underline underline-offset-2 hover:text-cafe-navy"
+                    >
+                      Política de Privacidade
+                    </a>
+                    .
+                  </p>
                 </form>
               )}
             </motion.div>
