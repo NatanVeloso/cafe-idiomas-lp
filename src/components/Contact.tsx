@@ -194,9 +194,12 @@ export default function Contact() {
         }
       }
 
+      // O 429 do limite por IP vem do @nestjs/throttler, em inglês ("ThrottlerException: ...");
+      // o do limite por e-mail/dia vem do guard, em português.
+      const limitMessage = messages.find((m) => !/throttler|too many/i.test(m));
       setErrorMessage(
         res.status === 429
-          ? `${messages[0] ?? 'Você já enviou mensagens demais.'} Tente de novo mais tarde ou`
+          ? `${limitMessage ?? 'Você já enviou algumas mensagens agora há pouco.'} Tente de novo mais tarde ou`
           : res.status === 400
             ? `${messages[0] ?? 'Confira os dados do formulário.'} Se preferir,`
             : 'Não conseguimos enviar sua mensagem agora. Tente novamente ou',
