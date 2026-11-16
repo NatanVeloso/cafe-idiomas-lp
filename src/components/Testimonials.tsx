@@ -10,12 +10,12 @@ import Luiza from '../assets/Luiza.webp';
 import Rejane from '../assets/Rejane.webp';
 import Daniel from '../assets/Daniel.webp';
 import Nathaly from '../assets/Nathaly.webp';
-import { relevantFirst, VARIANT } from '../variant';
+import { onlyPageLanguage, PAGE_LANGUAGE } from '../variant';
 
-/** Na LP de francês o curso fica oculto: a maioria dos depoimentos é de alunos de inglês. */
-const SHOW_COURSE = VARIANT !== 'frances';
+/** Rótulo alternativo por página de idioma; quem tem um entra naquela página mesmo sendo de outro curso. */
+type PageCourse = Partial<Record<'ingles' | 'frances', string>>;
 
-const testimonials = relevantFirst([
+const allTestimonials = [
   {
     name: 'Kaique Santos',
     course: 'Inglês Iniciante',
@@ -47,6 +47,8 @@ const testimonials = relevantFirst([
   {
     name: 'Daniel Fenris',
     course: 'Pai de aluna Inglês Avançado',
+    /** Também aparece na LP de francês, com este rótulo no lugar do curso. */
+    pageCourse: { frances: 'Pai de aluna' } as PageCourse,
     text: 'Minha esposa e filha são alunas da Café Idiomas e isso mudou nossa família. Mudou não só o lazer, como compreender séries e filmes, além das interações em casa também ampliou os objetivos de vida. Minha esposa agora busca uma certificação internacional em contabilidade e minha filha fará processo seletivo para universidades nos EUA. Meu caçula anseia atingir a idade para iniciar as aulas e passar a entender os jogos de computador, que faço questão de deixar tudo em inglês.',
     rating: 5,
     img: Daniel,
@@ -71,9 +73,18 @@ const testimonials = relevantFirst([
     rating: 5,
     img: Nathaly,
   },
-]);
+];
 
-type Testimonial = (typeof testimonials)[number];
+type Testimonial = (typeof allTestimonials)[number];
+
+/**
+ * Nas páginas de idioma, só os depoimentos daquele idioma; quem tem `pageCourse` para a página
+ * entra também, com o rótulo trocado. Na home a lista fica como está.
+ */
+const testimonials: Testimonial[] = allTestimonials.flatMap((t) => {
+  const label = PAGE_LANGUAGE ? t.pageCourse?.[PAGE_LANGUAGE] : undefined;
+  return label ? [{ ...t, course: label }] : onlyPageLanguage([t]);
+});
 
 const MAX_TEXT_LENGTH = 150;
 
@@ -166,7 +177,7 @@ function TestimonialModal({ testimonial, onClose }: { testimonial: Testimonial; 
             <Avatar testimonial={testimonial} size="lg" />
             <div>
               <h3 className="text-lg font-bold text-cafe-navy sm:text-xl">{testimonial.name}</h3>
-              {SHOW_COURSE && <p className="text-sm text-cafe-blue sm:text-base">{testimonial.course}</p>}
+              <p className="text-sm text-cafe-blue sm:text-base">{testimonial.course}</p>
               <div className="mt-1">
                 <Stars count={testimonial.rating} className="h-4 w-4" />
               </div>
@@ -212,7 +223,7 @@ function TestimonialCard({ testimonial, onReadMore }: { testimonial: Testimonial
         <Avatar testimonial={testimonial} size="sm" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-cafe-navy sm:text-base">{testimonial.name}</p>
-          {SHOW_COURSE && <p className="truncate text-xs text-cafe-blue sm:text-sm">{testimonial.course}</p>}
+          <p className="truncate text-xs text-cafe-blue sm:text-sm">{testimonial.course}</p>
         </div>
       </div>
     </div>
@@ -241,7 +252,9 @@ export default function Testimonials() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const maxIndex = testimonials.length - itemsPerView;
+  // With fewer cards than fit on screen (e.g. /frances) there is nothing to slide: show them centred.
+  const isCarousel = testimonials.length > itemsPerView;
+  const maxIndex = Math.max(0, testimonials.length - itemsPerView);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -254,14 +267,14 @@ export default function Testimonials() {
   };
 
   useEffect(() => {
-    if (selectedTestimonial) return;
+    if (selectedTestimonial || !isCarousel) return;
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maxIndex, resetTimer, selectedTestimonial]);
+  }, [maxIndex, resetTimer, selectedTestimonial, isCarousel]);
 
   return (
     <>
@@ -289,6 +302,23 @@ export default function Testimonials() {
             variants={stagger(0)}
             className="mx-auto max-w-6xl"
           >
+            {!isCarousel ? (
+              <div className="flex flex-wrap justify-center gap-6 py-6">
+                {testimonials.map((testimonial, index) => (
+                  <motion.div
+                    key={testimonial.name}
+                    variants={fadeUp}
+                    custom={index * 0.12}
+                    className="w-full max-w-md"
+                  >
+                    <TestimonialCard
+                      testimonial={testimonial}
+                      onReadMore={() => setSelectedTestimonial(testimonial)}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
             <div className="relative">
               <motion.button
                 variants={fadeIn}
@@ -347,7 +377,9 @@ export default function Testimonials() {
                 </div>
               </div>
             </div>
+            )}
 
+            {isCarousel && (
             <motion.div
               variants={fadeIn}
               custom={0.35}
@@ -367,6 +399,7 @@ export default function Testimonials() {
                 />
               ))}
             </motion.div>
+            )}
           </motion.div>
         </div>
       </section>
