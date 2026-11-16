@@ -67,10 +67,9 @@ const courses: Course[] = [
   },
   {
     id: 'trilingue',
-    name: 'Plano Trilíngue',
+    name: 'Plano Inglês + Francês',
     description: 'Para quem deseja combinar inglês e francês de forma flexível e com condições especiais.',
-    message:
-      'Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do Plano Trilíngue (inglês + francês).',
+    message: 'Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do Plano Inglês + Francês.',
     customQuote: {
       title: 'Orçamento sob medida',
       subtitle: 'Monte a combinação ideal com a escola',
@@ -88,9 +87,7 @@ const courses: Course[] = [
 const trilingue = courses.find((c) => c.id === 'trilingue')!;
 const visibleCourses = IS_LANGUAGE_PAGE ? courses.filter((c) => c !== trilingue) : courses;
 const otherLanguage = PAGE_LANGUAGE === 'ingles' ? 'francês' : 'inglês';
-const trilingueMessage = `Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do Plano Trilíngue (${
-  PAGE_LANGUAGE === 'frances' ? 'francês + inglês' : 'inglês + francês'
-}).`;
+const trilingueMessage = `Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do ${trilingue.name}.`;
 
 function TrilingueBanner() {
   return (

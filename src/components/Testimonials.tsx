@@ -10,7 +10,10 @@ import Luiza from '../assets/Luiza.webp';
 import Rejane from '../assets/Rejane.webp';
 import Daniel from '../assets/Daniel.webp';
 import Nathaly from '../assets/Nathaly.webp';
-import { relevantFirst } from '../variant';
+import { relevantFirst, VARIANT } from '../variant';
+
+/** Na LP de francês o curso fica oculto: a maioria dos depoimentos é de alunos de inglês. */
+const SHOW_COURSE = VARIANT !== 'frances';
 
 const testimonials = relevantFirst([
   {
@@ -163,7 +166,7 @@ function TestimonialModal({ testimonial, onClose }: { testimonial: Testimonial; 
             <Avatar testimonial={testimonial} size="lg" />
             <div>
               <h3 className="text-lg font-bold text-cafe-navy sm:text-xl">{testimonial.name}</h3>
-              <p className="text-sm text-cafe-blue sm:text-base">{testimonial.course}</p>
+              {SHOW_COURSE && <p className="text-sm text-cafe-blue sm:text-base">{testimonial.course}</p>}
               <div className="mt-1">
                 <Stars count={testimonial.rating} className="h-4 w-4" />
               </div>
@@ -209,7 +212,7 @@ function TestimonialCard({ testimonial, onReadMore }: { testimonial: Testimonial
         <Avatar testimonial={testimonial} size="sm" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-cafe-navy sm:text-base">{testimonial.name}</p>
-          <p className="truncate text-xs text-cafe-blue sm:text-sm">{testimonial.course}</p>
+          {SHOW_COURSE && <p className="truncate text-xs text-cafe-blue sm:text-sm">{testimonial.course}</p>}
         </div>
       </div>
     </div>
