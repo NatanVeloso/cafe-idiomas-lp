@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Play } from 'lucide-react';
 import { fadeUp, revealItem, stagger, VIEWPORT } from '../motion/presets';
+import { copy, relevantFirst } from '../variant';
 
-const videos = [
+const videos = relevantFirst([
   { id: 'hVDMiUqV7_I', title: 'Daniele Cardoso', course: 'Francês Iniciante' },
   { id: 'vIZCa7gzXKg', title: 'Thierry dos Santos', course: 'Inglês Intermediário-Avançado' },
   { id: '-FBU0kvZqug', title: 'Marcela Custódio', course: 'Francês Intermediário' },
   { id: 'msn0bps580c', title: 'Emily Ramos', course: 'Inglês Básico-Intermediário' },
-];
+]);
 
 function VideoCard({ video, index }: { video: (typeof videos)[number]; index: number }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -83,7 +84,7 @@ export default function VideoTestimonials() {
             Depoimentos em Vídeo
           </motion.h2>
           <motion.p variants={fadeUp} className="mx-auto max-w-2xl text-base text-cafe-ink sm:text-lg lg:text-xl">
-            Histórias reais de quem transformou sua comunicação em inglês e francês
+            {copy.videosSubtitle}
           </motion.p>
         </motion.div>
 

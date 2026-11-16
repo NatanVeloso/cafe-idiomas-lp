@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Target, Heart, TrendingUp } from 'lucide-react';
 import { fadeUp, fadeUpSoft, revealItem, scaleIn, slideInLeft, stagger, VIEWPORT } from '../motion/presets';
+import { copy } from '../variant';
 
 const features = [
   {
@@ -18,7 +19,7 @@ const features = [
   {
     icon: TrendingUp,
     title: 'Foco em Resultados',
-    description: 'Aprender uma língua estrangeira deixa de ser um sonho distante e vira parte da sua vida',
+    description: copy.aboutResult,
     color: 'bg-cafe-coral',
   },
 ];

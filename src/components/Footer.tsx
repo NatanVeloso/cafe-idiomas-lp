@@ -2,6 +2,7 @@ import logo from '../assets/logoWhite.webp';
 import { Instagram, Youtube, Music2 } from 'lucide-react';
 import { useScrollToSection } from '../hooks/useScrollToSection';
 import { PRIVACY_URL, SCHOOL_LEGAL, TERMS_URL } from '../legal';
+import { IS_LANGUAGE_PAGE } from '../variant';
 
 export default function Footer() {
 
@@ -38,7 +39,9 @@ export default function Footer() {
             <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-cafe-cream/80">
               <li><a href="#benefits" onClick={(e) => scrollToSection(e, '#benefits')} className="hover:text-cafe-coral transition-colors">Benefícios</a></li>
               <li><a href="#courses" onClick={(e) => scrollToSection(e, '#courses')} className="hover:text-cafe-coral transition-colors">Cursos</a></li>
-              <li><a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="hover:text-cafe-coral transition-colors">Sobre Nós</a></li>
+              {!IS_LANGUAGE_PAGE && (
+                <li><a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="hover:text-cafe-coral transition-colors">Sobre Nós</a></li>
+              )}
               <li><a href="#faq" onClick={(e) => scrollToSection(e, '#faq')} className="hover:text-cafe-coral transition-colors">FAQ</a></li>
               <li><a href="#testimonials" onClick={(e) => scrollToSection(e, '#testimonials')} className="hover:text-cafe-coral transition-colors">Depoimentos</a></li>
               <li><a href="#contact" onClick={(e) => scrollToSection(e, '#contact')} className="hover:text-cafe-coral transition-colors">Contato</a></li>

@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import logo from '../assets/logoComCorC.webp';
 import logoWhite from '../assets/logoWhiteC.webp';
 import { useScrollToSection } from '../hooks/useScrollToSection';
+import { IS_LANGUAGE_PAGE } from '../variant';
 
 interface HeaderProps {
   isScrolled: boolean;
@@ -15,7 +16,7 @@ const navLinks = [
   { href: '#courses', label: 'Cursos' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contact', label: 'Contato' },
-];
+].filter((link) => !(IS_LANGUAGE_PAGE && link.href === '#about'));
 
 export default function Header({ isScrolled }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

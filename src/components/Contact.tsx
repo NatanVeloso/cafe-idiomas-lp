@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { CheckCircle2, Loader2, Mail, Phone, Instagram, Music2, Send } from 'lucide-react';
 import { fadeUp, revealItem, scaleIn, slideInLeft, slideInRight, stagger, VIEWPORT } from '../motion/presets';
 import { PRIVACY_URL } from '../legal';
+import { PAGE_LANGUAGE, whatsappMessage } from '../variant';
 import Turnstile, { TURNSTILE_SITE_KEY } from './contact/Turnstile';
 import {
   fieldOfServerMessage,
@@ -65,12 +66,16 @@ function FieldError({ field, errors }: { field: ContactField; errors: ContactErr
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'https://api.escolacafeidiomas.com.br';
 
 const WHATSAPP_URL = `https://wa.me/553499690446?text=${encodeURIComponent(
-  'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre os cursos.',
+  whatsappMessage(
+    'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre os cursos.',
+    (curso) => `Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o curso de ${curso}.`,
+  ),
 )}`;
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
-const EMPTY: ContactValues = { name: '', email: '', phone: '', language: '', level: '', message: '' };
+// Nas páginas /ingles e /frances o idioma já vem marcado (a pessoa ainda pode trocar).
+const EMPTY: ContactValues = { name: '', email: '', phone: '', language: PAGE_LANGUAGE ?? '', level: '', message: '' };
 
 /** Tempo máximo de espera pela API antes de oferecer o WhatsApp. */
 const REQUEST_TIMEOUT_MS = 15_000;

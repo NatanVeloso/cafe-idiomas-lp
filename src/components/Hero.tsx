@@ -5,10 +5,17 @@ import { useScrollToSection } from '../hooks/useScrollToSection';
 import { EASE_OUT, fadeUpSoft, stagger } from '../motion/presets';
 import HeroVisual from './hero/HeroVisual';
 import { heroChips } from './hero/chips';
+import { copy, IS_LANGUAGE_PAGE, whatsappMessage } from '../variant';
 
 const phoneNumber = '553499690446';
-const message = 'Olá! Vim pelo site Café Idiomas e gostaria de agendar uma aula demonstrativa.';
+const message = whatsappMessage(
+  'Olá! Vim pelo site Café Idiomas e gostaria de agendar uma aula demonstrativa.',
+  (curso) => `Olá! Vim pelo site Café Idiomas e gostaria de agendar uma aula demonstrativa de ${curso}.`,
+);
 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+// Nas páginas de idioma não há "Sobre Nós": o botão secundário leva direto aos planos.
+const secondary = IS_LANGUAGE_PAGE ? { href: '#courses', label: 'Ver planos' } : { href: '#about', label: 'Saiba Mais' };
 
 const word: Variants = {
   hidden: { opacity: 0, y: '0.45em' },
@@ -57,22 +64,18 @@ export default function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cafe-coral opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-cafe-coral" />
               </span>
-              Aulas ao vivo · Inglês e Francês
+              {copy.heroBadge}
             </motion.span>
 
             <motion.h1
               variants={stagger(0.045)}
               className="mt-6 text-5xl font-bold leading-tight lg:text-6xl"
             >
-              <SplitWords
-                text="Aprenda Inglês e Francês com Naturalidade e Segurança"
-                accent={['Naturalidade', 'Segurança']}
-              />
+              <SplitWords text={copy.heroTitle} accent={copy.heroAccent} />
             </motion.h1>
 
             <motion.p variants={fadeUpSoft} className="mt-6 max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl">
-              Aulas individuais ou em dupla, ao vivo e online. Escolha a modalidade ideal para você e aprenda com
-              confiança, no seu ritmo e com foco na conversação!
+              {copy.heroSubtitle}
             </motion.p>
 
             {/* Labels never break mid-word; if the row runs out of room a whole button wraps instead. */}
@@ -89,13 +92,13 @@ export default function Hero() {
                 <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />
               </motion.a>
               <motion.a
-                href="#about"
-                onClick={(e) => scrollToSection(e, '#about')}
+                href={secondary.href}
+                onClick={(e) => scrollToSection(e, secondary.href)}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center justify-center rounded-full border-2 border-white/30 bg-white/10 px-7 py-4 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:whitespace-nowrap sm:text-lg lg:px-6 lg:text-base xl:px-7 xl:text-lg"
               >
-                Saiba Mais
+                {secondary.label}
               </motion.a>
             </motion.div>
 

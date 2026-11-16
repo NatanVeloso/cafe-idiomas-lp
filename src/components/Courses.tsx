@@ -1,12 +1,14 @@
 import { motion } from 'motion/react';
-import { Check } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { fadeUp, hoverLift, revealItem, stagger, VIEWPORT } from '../motion/presets';
+import { copy, IS_LANGUAGE_PAGE, PAGE_LANGUAGE, whatsappMessage } from '../variant';
 
 const phoneNumber = '553499690446';
 
 type Plan = { frequency: string; price: string; period: string };
 
 type Course = {
+  id?: string;
   name: string;
   description: string;
   featured?: boolean;
@@ -22,7 +24,10 @@ const courses: Course[] = [
   {
     name: 'Plano Dupla',
     description: 'Para quem quer aprender com mais interação e dividir a experiência com outra pessoa.',
-    message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano Dupla.',
+    message: whatsappMessage(
+      'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano Dupla.',
+      (curso) => `Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano Dupla de ${curso}.`,
+    ),
     plans: [
       { frequency: '1x por semana', price: 'R$ 320', period: 'por pessoa/mês' },
       { frequency: '2x por semana', price: 'R$ 580', period: 'por pessoa/mês' },
@@ -42,7 +47,10 @@ const courses: Course[] = [
     description: 'Para quem quer aulas individuais, personalizadas e com atenção total do professor.',
     featured: true,
     badge: 'Mais escolhido',
-    message: 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano VIP.',
+    message: whatsappMessage(
+      'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano VIP.',
+      (curso) => `Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o Plano VIP de ${curso}.`,
+    ),
     plans: [
       { frequency: '1x por semana', price: 'R$ 455', period: 'por mês' },
       { frequency: '2x por semana', price: 'R$ 860', period: 'por mês' },
@@ -58,6 +66,7 @@ const courses: Course[] = [
     cta: 'Quero garantir minha vaga',
   },
   {
+    id: 'trilingue',
     name: 'Plano Trilíngue',
     description: 'Para quem deseja combinar inglês e francês de forma flexível e com condições especiais.',
     message:
@@ -74,6 +83,42 @@ const courses: Course[] = [
     cta: 'Solicitar orçamento',
   },
 ];
+
+// Nas páginas de idioma o Trilíngue sai da grade (não compete com VIP/Dupla) e vira uma faixa discreta embaixo.
+const trilingue = courses.find((c) => c.id === 'trilingue')!;
+const visibleCourses = IS_LANGUAGE_PAGE ? courses.filter((c) => c !== trilingue) : courses;
+const otherLanguage = PAGE_LANGUAGE === 'ingles' ? 'francês' : 'inglês';
+const trilingueMessage = `Olá! Vim pelo site Café Idiomas e gostaria de solicitar um orçamento do Plano Trilíngue (${
+  PAGE_LANGUAGE === 'frances' ? 'francês + inglês' : 'inglês + francês'
+}).`;
+
+function TrilingueBanner() {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      variants={fadeUp}
+      className="mx-auto mt-10 flex max-w-4xl flex-col items-center gap-4 rounded-2xl border border-cafe-sand/70 bg-white p-6 text-center shadow-card sm:flex-row sm:justify-between sm:gap-6 sm:text-left"
+    >
+      <div>
+        <p className="text-lg font-bold text-cafe-navy">Quer aprender {otherLanguage} também?</p>
+        <p className="mt-1 text-sm text-cafe-ink">
+          No {trilingue.name} você combina inglês e francês como preferir, com orçamento sob medida.
+        </p>
+      </div>
+      <a
+        href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(trilingueMessage)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group inline-flex flex-shrink-0 items-center gap-2 rounded-xl bg-cafe-cream-2 px-5 py-3 font-semibold text-cafe-navy transition-colors hover:bg-cafe-sand"
+      >
+        {trilingue.cta}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+      </a>
+    </motion.div>
+  );
+}
 
 function CourseCard({ course, index }: { course: Course; index: number }) {
   return (
@@ -166,7 +211,7 @@ export default function Courses() {
           className="mb-10 text-center sm:mb-16"
         >
           <motion.h2 variants={fadeUp} className="font-bold mb-3 text-3xl text-cafe-navy sm:mb-4 sm:text-4xl lg:text-5xl">
-            Cursos e Planos
+            {copy.coursesTitle}
           </motion.h2>
           <motion.p variants={fadeUp} className="mx-auto max-w-3xl text-base text-cafe-ink sm:text-lg lg:text-xl">
             Escolha como você quer aprender!
@@ -176,11 +221,17 @@ export default function Courses() {
           </motion.p>
         </motion.div>
 
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {courses.map((course, index) => (
+        <div
+          className={`mx-auto grid gap-6 md:grid-cols-2 lg:gap-8 ${
+            IS_LANGUAGE_PAGE ? 'max-w-4xl' : 'max-w-6xl lg:grid-cols-3'
+          }`}
+        >
+          {visibleCourses.map((course, index) => (
             <CourseCard key={course.name} course={course} index={index} />
           ))}
         </div>
+
+        {IS_LANGUAGE_PAGE && <TrilingueBanner />}
       </div>
     </section>
   );

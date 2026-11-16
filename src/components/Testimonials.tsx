@@ -10,8 +10,9 @@ import Luiza from '../assets/Luiza.webp';
 import Rejane from '../assets/Rejane.webp';
 import Daniel from '../assets/Daniel.webp';
 import Nathaly from '../assets/Nathaly.webp';
+import { relevantFirst } from '../variant';
 
-const testimonials = [
+const testimonials = relevantFirst([
   {
     name: 'Kaique Santos',
     course: 'Inglês Iniciante',
@@ -67,7 +68,7 @@ const testimonials = [
     rating: 5,
     img: Nathaly,
   },
-];
+]);
 
 type Testimonial = (typeof testimonials)[number];
 

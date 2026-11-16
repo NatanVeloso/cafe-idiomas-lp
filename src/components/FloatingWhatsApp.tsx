@@ -1,8 +1,13 @@
 import { motion } from 'motion/react';
+import { whatsappMessage } from '../variant';
+
+const message = whatsappMessage(
+  'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre os cursos e metodologia de vocês.',
+  (curso) => `Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre o curso de ${curso}.`,
+);
 
 export default function FloatingWhatsApp() {
   const phoneNumber = '553499690446';
-  const message = 'Olá! Vim pelo site Café Idiomas e gostaria de saber mais sobre os cursos e metodologia de vocês.';
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (

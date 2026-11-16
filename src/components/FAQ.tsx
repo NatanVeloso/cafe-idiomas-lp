@@ -2,8 +2,44 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import { EASE_OUT, fadeUp, fadeUpSoft, revealItem, stagger, VIEWPORT } from '../motion/presets';
+import { PAGE_LANGUAGE } from '../variant';
 
-const faqs = [
+type Faq = { question: string; answer: string };
+
+/** Perguntas que só aparecem nas páginas de idioma, antes das gerais. */
+const languageFaqs: Record<'ingles' | 'frances', Faq[]> = {
+  ingles: [
+    {
+      question: 'Estudei inglês por anos e ainda não consigo falar. O curso serve para mim?',
+      answer:
+        'Serve, e é justamente para esse perfil. As aulas são ao vivo e focadas em conversação desde a primeira aula, com conteúdo adaptado ao que você já sabe e ao que trava a sua fala.',
+    },
+    {
+      question: 'Já tenho uma base de inglês. Vou ter que começar do básico?',
+      answer:
+        'Não. A coordenação pedagógica avalia o seu nível e os seus objetivos para indicar o professor e o ponto de partida certos. Como o conteúdo é personalizado, você não perde tempo revendo o que já domina.',
+    },
+  ],
+  frances: [
+    {
+      question: 'Nunca estudei francês. Consigo acompanhar?',
+      answer:
+        'Consegue. As aulas são individuais ou em dupla, então o ritmo é o seu e o professor acompanha cada passo, do zero às primeiras conversas.',
+    },
+    {
+      question: 'Francês é difícil para quem fala português?',
+      answer:
+        'Menos do que parece. Por ser uma língua latina, o francês tem muito vocabulário parecido com o português, o que ajuda bastante no começo. A pronúncia pede prática, e por isso as aulas focam em conversação desde o início.',
+    },
+    {
+      question: 'Já tenho uma base de francês. Vou ter que começar do básico?',
+      answer:
+        'Não. A coordenação pedagógica avalia o seu nível e os seus objetivos para indicar o professor e o ponto de partida certos. Como o conteúdo é personalizado, você não perde tempo revendo o que já domina.',
+    },
+  ],
+};
+
+const generalFaqs: Faq[] = [
   {
     question: 'O curso é gravado?',
     answer:
@@ -43,13 +79,15 @@ const faqs = [
   },
 ];
 
+const faqs: Faq[] = PAGE_LANGUAGE ? [...languageFaqs[PAGE_LANGUAGE], ...generalFaqs] : generalFaqs;
+
 function FAQItem({
   faq,
   index,
   isOpen,
   onToggle,
 }: {
-  faq: (typeof faqs)[number];
+  faq: Faq;
   index: number;
   isOpen: boolean;
   onToggle: () => void;
