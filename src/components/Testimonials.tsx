@@ -10,12 +10,23 @@ import Luiza from '../assets/Luiza.webp';
 import Rejane from '../assets/Rejane.webp';
 import Daniel from '../assets/Daniel.webp';
 import Nathaly from '../assets/Nathaly.webp';
-import { onlyPageLanguage, PAGE_LANGUAGE } from '../variant';
+import { PAGE_LANGUAGE, relevantFirst } from '../variant';
 
-/** Rótulo alternativo por página de idioma; quem tem um entra naquela página mesmo sendo de outro curso. */
+/** Rótulo próprio para uma página de idioma, no lugar do curso. */
 type PageCourse = Partial<Record<'ingles' | 'frances', string>>;
 
-const allTestimonials = [
+const OTHER_LANGUAGE = PAGE_LANGUAGE === 'ingles' ? /franc[eê]s/i : /ingl[eê]s/i;
+
+/**
+ * Texto embaixo do nome. Na home, sempre o curso. Nas páginas de idioma, o rótulo próprio da página
+ * se houver; senão o curso, a menos que cite o outro idioma (aí fica sem texto, mas o depoimento fica).
+ */
+function courseLabel(t: { course: string; pageCourse?: PageCourse }): string | null {
+  if (!PAGE_LANGUAGE) return t.course;
+  return t.pageCourse?.[PAGE_LANGUAGE] ?? (OTHER_LANGUAGE.test(t.course) ? null : t.course);
+}
+
+const testimonials = relevantFirst([
   {
     name: 'Kaique Santos',
     course: 'Inglês Iniciante',
@@ -47,7 +58,6 @@ const allTestimonials = [
   {
     name: 'Daniel Fenris',
     course: 'Pai de aluna Inglês Avançado',
-    /** Também aparece na LP de francês, com este rótulo no lugar do curso. */
     pageCourse: { frances: 'Pai de aluna' } as PageCourse,
     text: 'Minha esposa e filha são alunas da Café Idiomas e isso mudou nossa família. Mudou não só o lazer, como compreender séries e filmes, além das interações em casa também ampliou os objetivos de vida. Minha esposa agora busca uma certificação internacional em contabilidade e minha filha fará processo seletivo para universidades nos EUA. Meu caçula anseia atingir a idade para iniciar as aulas e passar a entender os jogos de computador, que faço questão de deixar tudo em inglês.',
     rating: 5,
@@ -73,18 +83,9 @@ const allTestimonials = [
     rating: 5,
     img: Nathaly,
   },
-];
+]);
 
-type Testimonial = (typeof allTestimonials)[number];
-
-/**
- * Nas páginas de idioma, só os depoimentos daquele idioma; quem tem `pageCourse` para a página
- * entra também, com o rótulo trocado. Na home a lista fica como está.
- */
-const testimonials: Testimonial[] = allTestimonials.flatMap((t) => {
-  const label = PAGE_LANGUAGE ? t.pageCourse?.[PAGE_LANGUAGE] : undefined;
-  return label ? [{ ...t, course: label }] : onlyPageLanguage([t]);
-});
+type Testimonial = (typeof testimonials)[number];
 
 const MAX_TEXT_LENGTH = 150;
 
@@ -177,7 +178,9 @@ function TestimonialModal({ testimonial, onClose }: { testimonial: Testimonial; 
             <Avatar testimonial={testimonial} size="lg" />
             <div>
               <h3 className="text-lg font-bold text-cafe-navy sm:text-xl">{testimonial.name}</h3>
-              <p className="text-sm text-cafe-blue sm:text-base">{testimonial.course}</p>
+              {courseLabel(testimonial) && (
+                <p className="text-sm text-cafe-blue sm:text-base">{courseLabel(testimonial)}</p>
+              )}
               <div className="mt-1">
                 <Stars count={testimonial.rating} className="h-4 w-4" />
               </div>
@@ -223,7 +226,9 @@ function TestimonialCard({ testimonial, onReadMore }: { testimonial: Testimonial
         <Avatar testimonial={testimonial} size="sm" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-cafe-navy sm:text-base">{testimonial.name}</p>
-          <p className="truncate text-xs text-cafe-blue sm:text-sm">{testimonial.course}</p>
+          {courseLabel(testimonial) && (
+            <p className="truncate text-xs text-cafe-blue sm:text-sm">{courseLabel(testimonial)}</p>
+          )}
         </div>
       </div>
     </div>
@@ -252,9 +257,7 @@ export default function Testimonials() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // With fewer cards than fit on screen (e.g. /frances) there is nothing to slide: show them centred.
-  const isCarousel = testimonials.length > itemsPerView;
-  const maxIndex = Math.max(0, testimonials.length - itemsPerView);
+  const maxIndex = testimonials.length - itemsPerView;
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -267,14 +270,14 @@ export default function Testimonials() {
   };
 
   useEffect(() => {
-    if (selectedTestimonial || !isCarousel) return;
+    if (selectedTestimonial) return;
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maxIndex, resetTimer, selectedTestimonial, isCarousel]);
+  }, [maxIndex, resetTimer, selectedTestimonial]);
 
   return (
     <>
@@ -302,23 +305,6 @@ export default function Testimonials() {
             variants={stagger(0)}
             className="mx-auto max-w-6xl"
           >
-            {!isCarousel ? (
-              <div className="flex flex-wrap justify-center gap-6 py-6">
-                {testimonials.map((testimonial, index) => (
-                  <motion.div
-                    key={testimonial.name}
-                    variants={fadeUp}
-                    custom={index * 0.12}
-                    className="w-full max-w-md"
-                  >
-                    <TestimonialCard
-                      testimonial={testimonial}
-                      onReadMore={() => setSelectedTestimonial(testimonial)}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
             <div className="relative">
               <motion.button
                 variants={fadeIn}
@@ -377,9 +363,7 @@ export default function Testimonials() {
                 </div>
               </div>
             </div>
-            )}
 
-            {isCarousel && (
             <motion.div
               variants={fadeIn}
               custom={0.35}
@@ -399,7 +383,6 @@ export default function Testimonials() {
                 />
               ))}
             </motion.div>
-            )}
           </motion.div>
         </div>
       </section>

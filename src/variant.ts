@@ -91,14 +91,3 @@ export function relevantFirst<T extends { course: string }>(items: T[]): T[] {
   const re = PAGE_LANGUAGE === 'ingles' ? /ingl[eê]s/i : /franc[eê]s/i;
   return [...items.filter((i) => re.test(i.course)), ...items.filter((i) => !re.test(i.course))];
 }
-
-/**
- * Nas páginas de idioma, só os itens que falam apenas do idioma da página
- * (quem fez os dois cursos sai das duas). Na home a lista fica como está.
- */
-export function onlyPageLanguage<T extends { course: string }>(items: T[]): T[] {
-  if (!PAGE_LANGUAGE) return items;
-  const own = PAGE_LANGUAGE === 'ingles' ? /ingl[eê]s/i : /franc[eê]s/i;
-  const other = PAGE_LANGUAGE === 'ingles' ? /franc[eê]s/i : /ingl[eê]s/i;
-  return items.filter((i) => own.test(i.course) && !other.test(i.course));
-}
